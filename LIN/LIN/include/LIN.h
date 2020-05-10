@@ -16,8 +16,8 @@ typedef void(*TxCbf_t)(void);
 typedef void(*RxCbf_t)(void);
 
 uint_8t LIN_Init(void);
-uint_8t LIN_SendResponse();
-uint_8t LIN_ReceiveResponse();
+uint_8t LIN_SendData(uint_8t msgID, uint_8t * data);
+uint_8t LIN_ReceiveData(uint_8t msgID, uint_8t * data);
 
 uint_8t LIN_SetTxCbf(TxCbf_t TxCbf);
 uint_8t LIN_SetRxCbf(RxCbf_t RxCbf);

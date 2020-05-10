@@ -17,7 +17,7 @@ LIN_Mastercfg_t master_LDF[MAX_MSGS_NUM]={
 #endif
 
 LIN_Slavecfg_t slave_Msgs[NUMBER_OF_MSGS]={
-		{.ID=1 ,.msgState = OWNER },
-		{.ID=2 ,.msgState = LISTENER}
+		{.ID=1 ,.msgState = OWNER, .dataSize=5 },
+		{.ID=2 ,.msgState = LISTENER, .dataSize=3}
 };
 
