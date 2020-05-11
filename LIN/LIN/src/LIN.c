@@ -10,9 +10,18 @@
 #include "LIN.h"
 #include "LIN_cfg.h"
 
-static void LIN_Task(void);
+#define SYNC_BYTE 0x55
+
+static void LIN_Runnable(void);
 /*header*/
 typedef uint_8t PID_t;
+
+typedef struct{
+uint_8t syncByte;
+PID_t PID;
+}header_t;
+
+task_t LIN_Task ={.Runnable = LIN_Runnable , .periodicity = 5};
 
 /*response*/
 typedef struct {
@@ -22,16 +31,51 @@ typedef struct {
 
 static TxCbf_t TxNotify;
 static RxCbf_t RxNotify;
+
 extern LIN_Slavecfg_t slave_Msgs[NUMBER_OF_MSGS];
-uint_8t LIN_Init(void) {
+extern LIN_Mastercfg_t master_LDF[MAX_MSGS_NUM];
+
+uint_8t LIN_Init(void)
+{
 	uint_8t Local_Error = OK;
 	Local_Error = HUART_Init();
 
 	return Local_Error;
 }
 
-static void LIN_Task(void) {
 
+static void LIN_Runnable(void)
+{
+	/*Master Task*/
+#if NODE_STATE == MASTER_NODE
+	static uint_8t msgCounter;
+	static uint_8t delay;
+	header_t currentHeader;
+
+	if(!delay)
+	{
+		HUART_SendBreak();
+		currentHeader.syncByte=SYNC_BYTE;
+		currentHeader.PID=
+		HUART_Send();
+		delay=master_LDF[msgCounter].ExecTime;
+		if((master_LDF[msgCounter].ExecTime%LIN_Task.periodicity))
+			delay+=((LIN_Task.periodicity) - (master_LDF[msgCounter].ExecTime%LIN_Task.periodicity));
+		msgCounter++;
+		delay-=LIN_Task.periodicity;
+		if(msgCounter == MAX_MSGS_NUM)
+			msgCounter=0;
+	}
+	else
+	{
+		delay-=LIN_Task.periodicity;
+	}
+
+#endif
+
+/*delay between Header and response*/
+
+	/*Slave Task*/
 }
 
 //uint_8t LIN_SetTxCbf(TxCbf_t TxCbf);
