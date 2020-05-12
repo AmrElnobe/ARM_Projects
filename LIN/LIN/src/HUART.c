@@ -133,6 +133,21 @@ uint_8t HUART_SetRxCbf(RxCbf_t RxCbf)
 	return LocalError;
 }
 
+uint_8t HUART_SetLBDCbf(LBDCbf_t LBDCbf)
+{
+	uint_8t LocalError=OK;
+	if(LBDCbf)
+	{
+		LocalError = UART_SetLBDCbf(LBDCbf);
+	}
+	else
+	{
+		LocalError=NOT_OK;
+	}
+	return LocalError;
+}
+
+
 uint_8t HUART_SendBreak(void)
 {
 	uint_8t Local_Error=OK;

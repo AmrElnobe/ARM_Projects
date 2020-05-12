@@ -21,7 +21,6 @@ C_SRCS += \
 ../src/Sched.c \
 ../src/Sched_config.c \
 ../src/UART.c \
-../src/app.c \
 ../src/main.c 
 
 OBJS += \
@@ -42,7 +41,6 @@ OBJS += \
 ./src/Sched.o \
 ./src/Sched_config.o \
 ./src/UART.o \
-./src/app.o \
 ./src/main.o 
 
 C_DEPS += \
@@ -63,7 +61,6 @@ C_DEPS += \
 ./src/Sched.d \
 ./src/Sched_config.d \
 ./src/UART.d \
-./src/app.d \
 ./src/main.d 
 
 
