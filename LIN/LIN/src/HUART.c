@@ -8,9 +8,9 @@
 #include "DGPIO.h"
 #include "DMA.h"
 #include "UART.h"
-#include "HUART_config.h"
-#include "HUART.h"
 #include "UART_Private.h"
+#include "HUART.h"
+#include "HUART_config.h"
 #define UART_DMA_TX_ENABLE	0x00000080
 #define UART_DMA_RX_ENABLE	0x00000040
 #define LIN_ENABLE          0x00004000

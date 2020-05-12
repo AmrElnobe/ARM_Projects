@@ -20,6 +20,10 @@ typedef signed short int int_32t;
 #define NOT_OK 	1
 #define BUSY	2
 
+typedef void(*TxCbf_t)(void);
+typedef void(*RxCbf_t)(void);
+typedef void(*LBDCbf_t)(void);
+
 uint_8t HUART_Init(void);
 uint_8t HUART_Send(uint_8t *Buffer, uint_16t Length);
 uint_8t HUART_Receive(uint_8t *Buffer, uint_16t Length);

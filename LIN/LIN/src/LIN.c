@@ -9,6 +9,8 @@
 
 #include "LIN.h"
 #include "LIN_cfg.h"
+#include "Sched.h"
+
 
 #define SYNC_BYTE 0x55
 
@@ -27,6 +29,10 @@ static void LIN_Runnable(void);
 /*header*/
 static void RxHeaderDone(void);
 static void startRxHeader(void);
+static void ReceiveCheckSum(void);
+static void TransmitCheckSum(void);
+static void ReceivedDone(void);
+
 typedef uint_8t PID_t;
 
 typedef struct{
@@ -51,6 +57,9 @@ static uint_8t headerReceivedFlag;
 
 extern LIN_Slavecfg_t slave_Msgs[NUMBER_OF_MSGS];
 extern LIN_Mastercfg_t master_LDF[MAX_MSGS_NUM];
+
+static uint_8t CheckSum ;
+static uint_8t CurrentMsgID ;
 
 uint_8t LIN_Init(void)
 {
@@ -88,8 +97,8 @@ static void LIN_Runnable(void)
 		currentHeader.PID = (((((master_LDF[msgCounter].ID & ID0) >> 0) ^ ((master_LDF[msgCounter].ID & ID1) >> 1)) \
 				^ (((master_LDF[msgCounter].ID & ID2) >> 2) ^ ((master_LDF[msgCounter].ID & ID4) >> 4)) ) << 6 ) | \
 						(((((master_LDF[msgCounter].ID & ID1) >> 1) ^ ((master_LDF[msgCounter].ID & ID3) >> 3)) \
-						^ (((master_LDF[msgCounter].ID & ID4) >> 4) ^ ((master_LDF[msgCounter].ID & ID5) >> 5)) ) << 7 ) \
-						| master_LDF[msgCounter].ID;
+								^ (((master_LDF[msgCounter].ID & ID4) >> 4) ^ ((master_LDF[msgCounter].ID & ID5) >> 5)) ) << 7 ) \
+								| master_LDF[msgCounter].ID;
 
 		HUART_Send((uint_8t *) &currentHeader, 2);
 		delay=master_LDF[msgCounter].ExecTime;
@@ -117,7 +126,7 @@ static void LIN_Runnable(void)
 			if(((((((receivedHeader.PID & ID0) >> 0) ^ ((receivedHeader.PID & ID1) >> 1)) \
 					^ (((receivedHeader.PID & ID2) >> 2) ^ ((receivedHeader.PID & ID4) >> 4))) << 6 ) == (receivedHeader.PID & P0)) && \
 					((((((receivedHeader.PID & ID1) >> 1) ^ ((receivedHeader.PID & ID3) >> 3)) \
-					^ (((receivedHeader.PID & ID4) >> 4) ^ ((receivedHeader.PID & ID5) >> 5)) ) << 7 ) == (receivedHeader.PID & P1)))
+							^ (((receivedHeader.PID & ID4) >> 4) ^ ((receivedHeader.PID & ID5) >> 5)) ) << 7 ) == (receivedHeader.PID & P1)))
 			{
 				receivedHeader.PID &= CLEAR_PARITY_BITS;
 
@@ -128,10 +137,14 @@ static void LIN_Runnable(void)
 						if (slave_Msgs[msgIterator].msgState == LISTENER)
 						{
 							HUART_Receive(slave_Msgs[msgIterator].data, slave_Msgs[msgIterator].dataSize);
+							CurrentMsgID = msgIterator ;
+							HUART_SetRxCbf(ReceiveCheckSum);
 						}
 						else if (slave_Msgs[msgIterator].msgState == OWNER)
 						{
 							HUART_Send(slave_Msgs[msgIterator].data, slave_Msgs[msgIterator].dataSize);
+							CurrentMsgID = msgIterator ;
+							HUART_SetTxCbf(TransmitCheckSum);
 						}
 						else
 						{
@@ -210,4 +223,60 @@ uint_8t LIN_ReceiveData(uint_8t msgID, uint_8t * data) {
 		/*MISRA*/
 	}
 	return LocalError;
+}
+
+
+static void TransmitCheckSum(void)
+{
+	uint_8t CalculatedCheckSum , iterator ;
+#if LIN_VERSION == LIN_V1
+	for (iterator = 0 ; iterator < slave_Msgs[CurrentMsgID].dataSize ; iterator ++ )
+	{
+		CalculatedCheckSum += slave_Msgs[CurrentMsgID].data[iterator] ;
+	}
+	CalculatedCheckSum = ~(CalculatedCheckSum) ;
+#elif LIN_VERSION == LIN_V2
+	for (iterator = 0 ; iterator < slave_Msgs[CurrentMsgID].dataSize ; iterator ++ )
+	{
+		CalculatedCheckSum += slave_Msgs[CurrentMsgID].data[iterator] ;
+	}
+	CalculatedCheckSum += slave_Msgs[CurrentMsgID].ID ;
+	CalculatedCheckSum = ~(CalculatedCheckSum) ;
+#endif
+
+	CheckSum = CalculatedCheckSum ;
+	HUART_Send(&CheckSum,1);
+}
+static void ReceiveCheckSum(void)
+{
+	HUART_Receive(&CheckSum,1);
+	HUART_SetRxCbf(ReceivedDone);
+
+}
+
+static void ReceivedDone(void)
+{
+	uint_8t CalculatedCheckSum , iterator ;
+#if LIN_VERSION == LIN_V1
+	for (iterator = 0 ; iterator < slave_Msgs[CurrentMsgID].dataSize ; iterator ++ )
+	{
+		CalculatedCheckSum += slave_Msgs[CurrentMsgID].data[iterator] ;
+	}
+	CalculatedCheckSum = ~(CalculatedCheckSum) ;
+#elif LIN_VERSION == LIN_V2
+	for (iterator = 0 ; iterator < slave_Msgs[CurrentMsgID].dataSize ; iterator ++ )
+	{
+		CalculatedCheckSum += slave_Msgs[CurrentMsgID].data[iterator] ;
+	}
+	CalculatedCheckSum += slave_Msgs[CurrentMsgID].ID ;
+	CalculatedCheckSum = ~(CalculatedCheckSum) ;
+#endif
+	if(CalculatedCheckSum == CheckSum)
+	{
+		/* Received correctly */
+	}
+	else
+	{
+		/* Received incorrect */
+	}
 }

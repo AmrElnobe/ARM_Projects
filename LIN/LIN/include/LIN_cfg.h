@@ -19,6 +19,11 @@
 #define MAX_TRANSMIT_SIZE	2
 #define MAX_RECEIVE_SIZE	2
 
+#define LIN_V1              0
+#define LIN_V2              1
+
+#define LIN_VERSION         LIN_V1
+
 typedef struct
 {
 	uint_8t ID;
