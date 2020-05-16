@@ -13,6 +13,7 @@ C_SRCS += \
 ../src/HLCD.c \
 ../src/HLCD_config.c \
 ../src/HLED.c \
+../src/HLED_config.c \
 ../src/HSwitch.c \
 ../src/HSwitch_config.c \
 ../src/HUART.c \
@@ -33,6 +34,7 @@ OBJS += \
 ./src/HLCD.o \
 ./src/HLCD_config.o \
 ./src/HLED.o \
+./src/HLED_config.o \
 ./src/HSwitch.o \
 ./src/HSwitch_config.o \
 ./src/HUART.o \
@@ -53,6 +55,7 @@ C_DEPS += \
 ./src/HLCD.d \
 ./src/HLCD_config.d \
 ./src/HLED.d \
+./src/HLED_config.d \
 ./src/HSwitch.d \
 ./src/HSwitch_config.d \
 ./src/HUART.d \

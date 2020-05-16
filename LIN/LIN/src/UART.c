@@ -19,7 +19,7 @@
 #define DATA_SIZE_CLEAR_MASK			0xFFFFEFFF
 #define PARITY_BIT_CLEAR_MASK			0xFFFF3FFF
 #define STOP_BITS_CLEAR_MASK			0xFFFFCFFF
-#define BREAK_ENABLE                    0x00000001
+#define BREAK_ENABLE                    0x00000001UL
 
 
 typedef struct
@@ -37,13 +37,13 @@ static TxCbf_t TxNotify;
 static RxCbf_t RxNotify;
 static LBDCbf_t LBDNotify;
 
-
+extern uint_8t UART_mode;
 uint_8t UART_Init(uint_32t BaudRateMantissa, uint_32t BaudRateFraction,uint_32t ParityBits,uint_32t DataSize,uint_32t StopBits)
 {
 	uint_8t Local_Error=OK;
 	UART->BRR= BaudRateFraction | (BaudRateMantissa<<4);
 	UART->CR1 |= USART_DEFAULT_CONFIG_MASK | DataSize| ParityBits;
-	UART->CR2 = StopBits;
+	UART->CR2 |= StopBits;
 	Local_Error|=DNVIC_ClearPendingIRQ(USART1);
 	Local_Error|=DNVIC_EnableIRQ(USART1);
 	return Local_Error;
@@ -138,68 +138,38 @@ uint_8t UART_SetLBDCbf(LBDCbf_t LBDCbf)
 
 void USART1_IRQHandler(void)
 {
-	if(UART->SR & USART_TC_FLAG)
+	if (!UART_mode)
 	{
-		UART->SR&=~USART_TC_FLAG;
-		if(TxBuffer.BufferState==STATE_BUSY)
+		if(UART->SR & USART_TC_FLAG)
 		{
-			if(TxBuffer.Position != TxBuffer.Size)
+			UART->SR&=~USART_TC_FLAG;
+			if(TxBuffer.BufferState==STATE_BUSY)
 			{
-				UART->DR = TxBuffer.Data[TxBuffer.Position];
-				TxBuffer.Position++;
-			}
-			else
-			{
-				TxBuffer.Position=0;
-				TxBuffer.Size=0;
-				TxBuffer.Data=NULL;
-				TxBuffer.BufferState=STATE_IDLE;
-				/*				UART->CR1 &= ~USART_TXEIE_ENABLE;*/
-				if(TxNotify)
+				if(TxBuffer.Position != TxBuffer.Size)
 				{
-					TxNotify();
+					UART->DR = TxBuffer.Data[TxBuffer.Position];
+					TxBuffer.Position++;
 				}
 				else
 				{
-					/*MISRA*/
+					TxBuffer.Position=0;
+					TxBuffer.Size=0;
+					TxBuffer.Data=NULL;
+					TxBuffer.BufferState=STATE_IDLE;
+					/*				UART->CR1 &= ~USART_TXEIE_ENABLE;*/
+					if(TxNotify)
+					{
+						TxNotify();
+					}
+					else
+					{
+						/*MISRA*/
+					}
 				}
-			}
-		}
-		else
-		{
-			/*MISRA*/
-		}
-	}
-	else
-	{
-		/*MISRA*/
-	}
-
-	if(UART->SR & USART_RXNE_FLAG)
-	{
-		if(RxBuffer.BufferState==STATE_BUSY)
-		{
-			if(RxBuffer.Position != RxBuffer.Size)
-			{
-				UART->SR &= ~USART_RXNE_FLAG;
-				RxBuffer.Data[RxBuffer.Position]=UART->DR;
-				RxBuffer.Position++;
 			}
 			else
 			{
-				RxBuffer.Data=NULL;
-				RxBuffer.Position=0;
-				RxBuffer.Size=0;
-				RxBuffer.BufferState=STATE_IDLE;
-				UART->CR1 &= ~USART_RXNEIE_ENABLE;
-				if(RxNotify)
-				{
-					RxNotify();
-				}
-				else
-				{
-					/*MISRA*/
-				}
+				/*MISRA*/
 			}
 		}
 		else
@@ -207,6 +177,43 @@ void USART1_IRQHandler(void)
 			/*MISRA*/
 		}
 
+		if(UART->SR & USART_RXNE_FLAG)
+		{
+			if(RxBuffer.BufferState==STATE_BUSY)
+			{
+				if(RxBuffer.Position != RxBuffer.Size)
+				{
+					UART->SR &= ~USART_RXNE_FLAG;
+					RxBuffer.Data[RxBuffer.Position]=UART->DR;
+					RxBuffer.Position++;
+				}
+				else
+				{
+					RxBuffer.Data=NULL;
+					RxBuffer.Position=0;
+					RxBuffer.Size=0;
+					RxBuffer.BufferState=STATE_IDLE;
+					UART->CR1 &= ~USART_RXNEIE_ENABLE;
+					if(RxNotify)
+					{
+						RxNotify();
+					}
+					else
+					{
+						/*MISRA*/
+					}
+				}
+			}
+			else
+			{
+				/*MISRA*/
+			}
+
+		}
+		else
+		{
+			/*MISRA*/
+		}
 	}
 	else
 	{
@@ -215,6 +222,7 @@ void USART1_IRQHandler(void)
 
 	if (UART->SR & USART_LBD_FLAG)
 	{
+		UART->SR &=~ USART_LBD_FLAG;
 		if (LBDNotify)
 		{
 			LBDNotify();
@@ -228,7 +236,7 @@ void USART1_IRQHandler(void)
 
 void DMA_ChannelFour_Finish(void)
 {
-	while(!(UART->SR&USART_TC_FLAG));
+	while(!(UART->SR & USART_TC_FLAG));
 
 	UART->SR &= ~(USART_TC_FLAG);
 
@@ -257,6 +265,5 @@ void DMA_ChannelFive_Finish(void)
 
 void UART_SendBreak(void)
 {
-	UART->CR2|=BREAK_ENABLE;
-	while((UART->CR2 & BREAK_ENABLE));
+	UART->CR1|=BREAK_ENABLE;
 }

@@ -11,12 +11,13 @@
 #include "UART_Private.h"
 #include "HUART.h"
 #include "HUART_config.h"
-#define UART_DMA_TX_ENABLE	0x00000080
-#define UART_DMA_RX_ENABLE	0x00000040
-#define LIN_ENABLE          0x00004000
-#define LIN_BREAK_SIZE      0x00000020
+#define UART_DMA_TX_ENABLE		0x00000080
+#define UART_DMA_RX_ENABLE		0x00000040
+#define LIN_ENABLE    	      	0x00004000
+#define LIN_BREAK_SIZE  	    0x00000020
+#define LIN_INTERRUPT_ENABLE	0x00000040
 Notify_t Notification_Send,Notification_Receive;
-
+uint_8t UART_mode = INTERRUPT_MODE;
 uint_32t Clk;
 uint_8t HUART_Init(void)
 {
@@ -34,8 +35,8 @@ uint_8t HUART_Init(void)
 	Local_Error|=RCC_GetBusClock(APB2_BUS,&Clk);
 	BaudRate_Mantissa = ( (Clk) / (16*BAUD_RATE) );
 	BaudRate_Fraction = (( ( (Clk) % (16*BAUD_RATE) ) *16 ) / (16*BAUD_RATE));
-
 #if MODE==DMA_MODE
+	UART_mode = DMA_MODE;
 	D_DMA_Init();
 	UART->CR3 |= UART_DMA_TX_ENABLE;
 	UART->CR3 |= UART_DMA_RX_ENABLE;
@@ -46,9 +47,11 @@ uint_8t HUART_Init(void)
 #if LIN_MODE==LIN_ON
 	UART->CR2 |=LIN_ENABLE;
 	UART->CR2 |=LIN_BREAK_SIZE;
+	UART->CR2 |=LIN_INTERRUPT_ENABLE;
 #endif
 	Local_Error|=UART_Init(BaudRate_Mantissa,BaudRate_Fraction,PARITY_BIT,DATA_BITS,STOP_BITS);
 	return Local_Error;
+
 }
 uint_8t HUART_Send(uint_8t *Buffer, uint_16t Length)
 {
@@ -76,7 +79,7 @@ uint_8t HUART_Receive(uint_8t *Buffer, uint_16t Length)
 #elif RECEIVE_MODE==RECEIVE_MODE_DMA
 	Notification_Receive.TC=DMA_ChannelFive_Finish;
 	D_DMA_SetNotifyCbf(&Notification_Receive,CHANNEL_FIVE);
-	localError=D_DMA_Start((uint_32t)Buffer,(uint_32t)(&(UART->DR)),Length,CHANNEL_TWO);
+	localError=D_DMA_Start((uint_32t)Buffer,(uint_32t)(&(UART->DR)),Length,CHANNEL_FIVE);
 #else
 #error("PROBLEM IN CONFIGURATION !!!")
 #endif

@@ -1,6 +1,6 @@
 src/main.o: ../src/main.c ../include/DRCC.h ../include/DGPIO.h \
  ../include/DNVIC.h ../include/HUART.h ../include/DSYSTICK.h \
- ../include/HLED.h ../include/Sched.h ../include/HLCD.h
+ ../include/HLED.h ../include/Sched.h ../include/HLCD.h ../include/LIN.h
 
 ../include/DRCC.h:
 
@@ -17,3 +17,5 @@ src/main.o: ../src/main.c ../include/DRCC.h ../include/DGPIO.h \
 ../include/Sched.h:
 
 ../include/HLCD.h:
+
+../include/LIN.h:

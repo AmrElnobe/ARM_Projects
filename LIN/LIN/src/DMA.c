@@ -122,7 +122,8 @@ void DMA1_Channel1_IRQHandler(void)
 {
 	if( (DMA->ISR & DMA1_GET_INT_TC1) ==DMA1_GET_INT_TC1)
 	{
-		DMA->ISR &= ~(DMA1_GET_INT_TC1);
+		DMA->IFCR |= (DMA1_GET_INT_TC1);
+		DMA->Channel[CHANNEL_ONE].CCR&=~ENABLE_DMA;
 		if(NotificationArray[CHANNEL_ONE].TC)
 		{
 			(NotificationArray[CHANNEL_ONE].TC)();
@@ -134,7 +135,8 @@ void DMA1_Channel2_IRQHandler(void)
 {
 	if( (DMA->ISR & DMA1_GET_INT_TC2) ==DMA1_GET_INT_TC2)
 	{
-		DMA->ISR &= ~(DMA1_GET_INT_TC2);
+		DMA->IFCR |= (DMA1_GET_INT_TC2);
+		DMA->Channel[CHANNEL_TWO].CCR&=~ENABLE_DMA;
 		if(NotificationArray[CHANNEL_TWO].TC)
 		{
 			NotificationArray[CHANNEL_TWO].TC();
@@ -146,7 +148,8 @@ void DMA1_Channel3_IRQHandler(void)
 {
 	if( (DMA->ISR & DMA1_GET_INT_TC3) ==DMA1_GET_INT_TC3)
 	{
-		DMA->ISR &= ~(DMA1_GET_INT_TC3);
+		DMA->IFCR |= (DMA1_GET_INT_TC3);
+		DMA->Channel[CHANNEL_THREE].CCR&=~ENABLE_DMA;
 		if(NotificationArray[CHANNEL_THREE].TC)
 		{
 			NotificationArray[CHANNEL_THREE].TC();
@@ -158,7 +161,8 @@ void DMA1_Channel4_IRQHandler(void)
 {
 	if( (DMA->ISR & DMA1_GET_INT_TC4) ==DMA1_GET_INT_TC4)
 	{
-		DMA->ISR &= ~(DMA1_GET_INT_TC4);
+		DMA->IFCR |= (DMA1_GET_INT_TC4);
+		DMA->Channel[CHANNEL_FOUR].CCR&=~ENABLE_DMA;
 		if(NotificationArray[CHANNEL_FOUR].TC)
 		{
 			NotificationArray[CHANNEL_FOUR].TC();
@@ -170,7 +174,8 @@ void DMA1_Channel5_IRQHandler(void)
 {
 	if( (DMA->ISR & DMA1_GET_INT_TC5) ==DMA1_GET_INT_TC5)
 	{
-		DMA->ISR &= ~(DMA1_GET_INT_TC5);
+		DMA->IFCR |= (DMA1_GET_INT_TC5);
+		DMA->Channel[CHANNEL_FIVE].CCR&=~ENABLE_DMA;
 		if(NotificationArray[CHANNEL_FIVE].TC)
 		{
 			NotificationArray[CHANNEL_FIVE].TC();
@@ -182,7 +187,8 @@ void DMA1_Channel6_IRQHandler(void)
 {
 	if( (DMA->ISR & DMA1_GET_INT_TC6) ==DMA1_GET_INT_TC6)
 	{
-		DMA->ISR &= ~(DMA1_GET_INT_TC6);
+		DMA->IFCR |= (DMA1_GET_INT_TC6);
+		DMA->Channel[CHANNEL_SIX].CCR&=~ENABLE_DMA;
 		if(NotificationArray[CHANNEL_SIX].TC)
 		{
 			NotificationArray[CHANNEL_SIX].TC();
@@ -194,7 +200,8 @@ void DMA1_Channel7_IRQHandler(void)
 {
 	if( (DMA->ISR & DMA1_GET_INT_TC7) ==DMA1_GET_INT_TC7)
 	{
-		DMA->ISR &= ~(DMA1_GET_INT_TC7);
+		DMA->IFCR |= (DMA1_GET_INT_TC7);
+		DMA->Channel[CHANNEL_SEVEN].CCR&=~ENABLE_DMA;
 		if(NotificationArray[CHANNEL_SEVEN].TC)
 		{
 			NotificationArray[CHANNEL_SEVEN].TC();

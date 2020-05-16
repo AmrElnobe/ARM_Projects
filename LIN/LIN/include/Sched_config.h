@@ -8,7 +8,7 @@
 #ifndef SCHED_CONFIG_H_
 #define SCHED_CONFIG_H_
 #define SCHED_TICK_mSEC 1
-#define MAX_TASKS 3
+#define MAX_TASKS 1
 typedef struct
 {
 	task_t * AppTask;
