@@ -14,7 +14,7 @@
 #include "FLITF.h"
 
 #define WORD_SIZE                       4
-#define SCB_AIRCR                      *((volatile uint_32t*) 0XE000ED0C))
+#define SCB_AIRCR                      *((volatile uint_32t*) 0XE000ED0C)
 #define SFT_RST                        0x00000002
 #define PASSWORD_MASK                  0X05FA0000
 
@@ -24,41 +24,57 @@ static void Recieve_Data              (void);
 static void Received_Finished         (void);
 static void Reset_Sys                 (void);
 /*
- * TODO : hannazelo fe makan sabet fel memory YA MARINA
+ * done - hannazelo fe makan sabet fel memory
  * */
-static uint_32t Marker                          ;
+static uint_32t * Marker = (uint_32t *) (0x08001FF8)                         ;
+
+/*
+ * done - Entry Point fe makan sabet
+ * */
+typedef void(*EntryPoint_t)(void)               ;
+EntryPoint_t * APP_EntryPoint = (EntryPoint_t *) (0x08001FFC)                ;
+
+
 
 static uint_8t  Buffer[FLASH_WRITE_SECTOR_SIZE] ;
-static uint_32t FlashNewAppKey                  ;
+static uint_8t FlashNewAppKey                  ;
 static uint_32t APP_Size                        ;
 static uint_32t APP_Addr                        ;
 static uint_32t COM_Handler_State               ;
 static uint_32t Entry_Point_Addr                ;
 
 static RespondFrame_t Respond                   ;
-/*
- * TODO Entry Point fe makan sabet
- * */
-typedef void(*EntryPoint_t)(void)               ;
-EntryPoint_t APP_EntryPoint                     ;
 
 void main (void)
 {
 
-	RCC_SetPriephralStatus (GPIO_A_ENABLE,ON)  ;
-	RCC_SetPriephralStatus (GPIO_C_ENABLE,ON)  ;
-	RCC_SetPriephralStatus (USART_1_ENABLE,ON) ;
-	RCC_SetPriephralStatus(DMA_1_ENABLE,ON)    ;
-	HUART_Init()                               ;
-	switch(Marker)
+	switch(*Marker)
 	{
 	case APP_FOUND :
-		/*EntryPoint();*/
+		/*Initialize stack pointer*/
+		asm ("ldr r1, =_estack\n"
+				"mov sp, r1");
+		(*APP_EntryPoint)();
 		break ;
 	case NEW_APP_REQ :
 		/*CBF*/
+		RCC_SetPriephralStatus (GPIO_A_ENABLE,ON)  ;
+		RCC_SetPriephralStatus (GPIO_C_ENABLE,ON)  ;
+		RCC_SetPriephralStatus (USART_1_ENABLE,ON) ;
+		RCC_SetPriephralStatus(DMA_1_ENABLE,ON)    ;
+		HUART_Init()                               ;
+		/*erase old application*/
+		while(1)
+		{
+			Com_Handler();
+		}
 		break ;
 	case NO_APP :
+		RCC_SetPriephralStatus (GPIO_A_ENABLE,ON)  ;
+		RCC_SetPriephralStatus (GPIO_C_ENABLE,ON)  ;
+		RCC_SetPriephralStatus (USART_1_ENABLE,ON) ;
+		RCC_SetPriephralStatus(DMA_1_ENABLE,ON)    ;
+		HUART_Init()                               ;
 		while(1)
 		{
 			Com_Handler();
@@ -73,14 +89,19 @@ void Com_Handler(void)
 	case WAITING_NEW_APP_CMD :
 		HUART_Receive(Buffer,FLASH_NEW_APP_SIZE);
 		HUART_SetRxCbf(Receiving_New_App_Req);
+		COM_Handler_State=WAITING_STATE;
 		break ;
 	case NEW_APP_CMD_RECEIVED :
 		HUART_Receive(Buffer,FLASH_WRITE_SECTOR_SIZE);
 		HUART_SetRxCbf(Recieve_Data);
+		COM_Handler_State=WAITING_STATE;
 		break ;
 	case FLASH_WRITE_FINISHED :
 		HUART_Receive(Buffer,END_FLASH_SIZE);
 		HUART_SetRxCbf(Received_Finished);
+		COM_Handler_State=WAITING_STATE;
+		break ;
+	case WAITING_STATE :
 		break ;
 	}
 }
@@ -161,7 +182,7 @@ void Recieve_Data         (void)
 	}
 	else
 	{
-		/* MISRA */
+		COM_Handler_State = NEW_APP_CMD_RECEIVED;
 	}
 	HUART_Send((uint_8t*)&Respond,RESPOND_FRAME_SIZE);
 }
@@ -177,9 +198,9 @@ void Received_Finished         (void)
 			{
 				Respond.ACK_Key = RECEIVED_OK      ;
 				temp            = APP_FOUND        ;
-				Flash_ProgramWrite((void *)&Marker,(void *)&temp,WORD_SIZE);
+				Flash_ProgramWrite((void *)Marker,(void *)&temp,WORD_SIZE);
 				temp            = Entry_Point_Addr ;
-				Flash_ProgramWrite((void *)&APP_EntryPoint,(void *)&temp,WORD_SIZE);
+				Flash_ProgramWrite((void *)APP_EntryPoint,(void *)&temp,WORD_SIZE);
 			}
 			else
 			{

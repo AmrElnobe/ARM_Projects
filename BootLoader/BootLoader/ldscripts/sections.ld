@@ -57,6 +57,30 @@ SECTIONS
      * For Cortex-M devices, the beginning of the startup code is stored in
      * the .isr_vector section, which goes to FLASH. 
      */
+    .Marker_section : ALIGN(4)
+    {
+        FILL(0xFF)
+        
+        KEEP(*(.Marker_section))     	/* Marker variable */
+		     
+        /* 
+         * This section is here for marker variable
+         */
+
+    } >MARKERMEM
+
+    .Entry_section : ALIGN(4)
+    {
+        FILL(0xFF)
+        
+        KEEP(*(.Entry_section))     	/* Entry point of the application */
+		     
+        /* 
+         * This section is here for Entrypoint variable
+         */
+
+    } >ENTRYPOINTMEM
+
     .isr_vector : ALIGN(4)
     {
         FILL(0xFF)

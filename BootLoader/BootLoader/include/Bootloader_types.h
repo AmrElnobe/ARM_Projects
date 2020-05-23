@@ -34,14 +34,15 @@ typedef signed short int int_32t;
 #define START_OF_FRAME_KEY            0xBB
 #define END_FLASH_KEY                 0xCC
 
-#define FLASH_NEW_APP_SIZE            0X13
-#define FLASH_WRITE_SECTOR_SIZE       0X0B+(4*MAX_DATA_SIZE)
+#define FLASH_NEW_APP_SIZE            0X10
+#define FLASH_WRITE_SECTOR_SIZE       0X0C+(MAX_DATA_SIZE)
 #define RESPOND_FRAME_SIZE            0x04
 #define END_FLASH_SIZE                0x04
 
 #define WAITING_NEW_APP_CMD           0
 #define NEW_APP_CMD_RECEIVED          1
 #define FLASH_WRITE_FINISHED          2
+#define WAITING_STATE				  3
 
 typedef struct
 {
@@ -53,7 +54,7 @@ typedef struct
 typedef struct
 {
 	Header_t Header              ;
-	uint_32t key                 ;
+	uint_8t key                 ;
 	uint_32t Address             ;
 	uint_32t Size                ;
 	uint_32t EntryPoint          ;
@@ -64,7 +65,7 @@ typedef struct
 	Header_t Header              ;
 	uint_32t Address             ;
 	uint_32t Size                ;
-	uint_32t Data[MAX_DATA_SIZE] ;
+	uint_8t Data[MAX_DATA_SIZE] ;
 }FlashWriteSector_t;
 
 typedef struct
