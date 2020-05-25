@@ -135,7 +135,7 @@ void Receiving_New_App_Req(void)
 void Recieve_Data         (void)
 {
 	uint_16t iterator  ;
-	uint_8t  Error     ;
+	/*volatile*/ uint_8t  Error=0     ;
 	FlashWriteSector_t * ReceivedData_ptr = (FlashWriteSector_t *) Buffer ;
 	if(ReceivedData_ptr->Header.Start_Of_Frame == START_OF_FRAME_KEY)
 	{
@@ -144,10 +144,11 @@ void Recieve_Data         (void)
 			if(FlashNewAppKey == FLASH_NEW_APP_KEY)
 			{
 				Flash_Unlock();
+				/*Flash_ErasePage(ReceivedData_ptr->Address);*/
 				Flash_ProgramWrite((void*)ReceivedData_ptr->Address,(void*)ReceivedData_ptr->Data,ReceivedData_ptr->Size );
-				for(iterator = 0; iterator<=ReceivedData_ptr->Size ; iterator ++ )
+				for(iterator = 0; iterator<ReceivedData_ptr->Size ; iterator ++ )
 				{
-					if(ReceivedData_ptr->Data[iterator] != *((uint_32t *)(ReceivedData_ptr->Address))+iterator)
+					if(ReceivedData_ptr->Data[iterator] != *((uint_8t *)(ReceivedData_ptr->Address)+iterator))
 					{
 						Error = 1 ;
 					}

@@ -22,7 +22,7 @@ typedef signed short int int_32t;
 #define RECEIVED_NOK                  2
 
 #define APP_FOUND                     0xAABBCCDD
-#define NEW_APP_REQ                   0xDDCCBBAA
+#define NEW_APP_REQ                   0x01020304
 #define NO_APP                        0xFFFFFFFF
 
 #define COMMAND_FLASH_NEW_APP         0xAB
@@ -49,6 +49,7 @@ typedef struct
 	uint_8t Start_Of_Frame       ;
 	uint_8t Req_Num              ;
 	uint_8t command_Num          ;
+	uint_8t uc_ID	             ;
 }Header_t;
 
 typedef struct
