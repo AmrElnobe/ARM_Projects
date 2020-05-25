@@ -49,7 +49,6 @@ typedef struct
 	uint_8t Start_Of_Frame       ;
 	uint_8t Req_Num              ;
 	uint_8t command_Num          ;
-	uint_8t uc_ID	             ;
 }Header_t;
 
 typedef struct

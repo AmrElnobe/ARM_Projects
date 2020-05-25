@@ -15,7 +15,7 @@
 
 #define WORD_SIZE                       4
 #define SCB_AIRCR                      *((volatile uint_32t*) 0XE000ED0C)
-#define SFT_RST                        0x00000002
+#define SFT_RST                        0x00000004
 #define PASSWORD_MASK                  0X05FA0000
 
 static void Com_Handler               (void);
@@ -224,5 +224,6 @@ void Received_Finished         (void)
 static void Reset_Sys (void)
 {
 	SCB_AIRCR |= SFT_RST | PASSWORD_MASK ;
+	while (1);
 
 }
