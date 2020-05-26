@@ -30,7 +30,7 @@ typedef signed short int int_32t;
 /************************************************************************
  * Function name: Switch_Init
  *
- * parameters:  Input: NA
+ * parameters:  Input: NA      
  *
  *
  *              Output: NA
