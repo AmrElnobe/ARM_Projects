@@ -1,17 +1,17 @@
 #include "DRCC.h"
 
-#define RCC_BASE_ADDRESS 0X40021000
+#define DRCC_BASE_ADDRESS 0X40021000
 
-#define RCC_CR          *((uint_32t *)(RCC_BASE_ADDRESS + 0X00))
-#define RCC_CFGR        *((uint_32t *)(RCC_BASE_ADDRESS + 0X04))
-#define RCC_CIR         *((uint_32t *)(RCC_BASE_ADDRESS + 0X08))
-#define RCC_APB2RSTR    *((uint_32t *)(RCC_BASE_ADDRESS + 0X0C))
-#define RCC_APB1RSTR    *((uint_32t *)(RCC_BASE_ADDRESS + 0X10))
-#define RCC_AHBENR      *((uint_32t *)(RCC_BASE_ADDRESS + 0X14))
-#define RCC_APB2ENR     *((uint_32t *)(RCC_BASE_ADDRESS + 0X18))
-#define RCC_APB1ENR     *((uint_32t *)(RCC_BASE_ADDRESS + 0X1C))
-#define RCC_BDCR        *((uint_32t *)(RCC_BASE_ADDRESS + 0X20))
-#define RCC_CSR         *((uint_32t *)(RCC_BASE_ADDRESS + 0X24))	
+#define RCC_CR          *((uint_32t *)(DRCC_BASE_ADDRESS + 0X00))
+#define RCC_CFGR        *((uint_32t *)(DRCC_BASE_ADDRESS + 0X04))
+#define RCC_CIR         *((uint_32t *)(DRCC_BASE_ADDRESS + 0X08))
+#define RCC_APB2RSTR    *((uint_32t *)(DRCC_BASE_ADDRESS + 0X0C))
+#define RCC_APB1RSTR    *((uint_32t *)(DRCC_BASE_ADDRESS + 0X10))
+#define RCC_AHBENR      *((uint_32t *)(DRCC_BASE_ADDRESS + 0X14))
+#define RCC_APB2ENR     *((uint_32t *)(DRCC_BASE_ADDRESS + 0X18))
+#define RCC_APB1ENR     *((uint_32t *)(DRCC_BASE_ADDRESS + 0X1C))
+#define RCC_BDCR        *((uint_32t *)(DRCC_BASE_ADDRESS + 0X20))
+#define RCC_CSR         *((uint_32t *)(DRCC_BASE_ADDRESS + 0X24))
 
 #define PLLRDY_MASK 	0x02000000
 #define HSERDY_MASK 	0x00020000
@@ -78,7 +78,7 @@
 #define AHB_PRESCALER_DIV_512_MASK         0x000000F0
 
 
-uint_8t RCC_SetClkStatus (uint_32t clk,uint_8t status)
+uint_8t DRCC_SetClkStatus (uint_32t clk,uint_8t status)
 {
 	if ((clk>>28)==1)
 	{
@@ -99,7 +99,7 @@ uint_8t RCC_SetClkStatus (uint_32t clk,uint_8t status)
 	}
 }
 
-uint_8t RCC_SetSystemClk (uint_32t clk)
+uint_8t DRCC_SetSystemClk (uint_32t clk)
 {
 	if ((clk>>29)==1)
 	{
@@ -143,7 +143,7 @@ uint_8t RCC_SetSystemClk (uint_32t clk)
 	}
 }
 
-uint_8t RCC_SetPLLConfig (uint_32t src, uint_8t MULL)
+uint_8t DRCC_SetPLLConfig (uint_32t src, uint_8t MULL)
 {
 
 	if((src>>30)==1)
@@ -159,7 +159,7 @@ uint_8t RCC_SetPLLConfig (uint_32t src, uint_8t MULL)
 		return NOT_OK;
 }
 
-uint_8t RCC_SetPriephralStatus (uint_32t priephral,uint_8t Status)
+uint_8t DRCC_SetPriephralStatus (uint_32t priephral,uint_8t Status)
 {
 	if ((priephral>>31)==1) /*AHB shafra*/
 	{
@@ -206,7 +206,7 @@ uint_8t RCC_SetPriephralStatus (uint_32t priephral,uint_8t Status)
 	}
 
 }
-uint_8t RCC_SetBusPrescale (uint_32t Bus,uint_8t Prescale)
+uint_8t DRCC_SetBusPrescale (uint_32t Bus,uint_8t Prescale)
 {
 	uint_32t local_temp=RCC_CFGR;
 	if ((Bus>>27)==1)
@@ -238,7 +238,7 @@ uint_8t RCC_SetBusPrescale (uint_32t Bus,uint_8t Prescale)
 }
 
 
-static uint_8t RCC_GetSystemClk (uint_32t *CLK)
+static uint_8t DRCC_GetSystemClk (uint_32t *CLK)
 {
 
 
@@ -277,7 +277,7 @@ static uint_8t RCC_GetSystemClk (uint_32t *CLK)
 }
 
 
-uint_8t RCC_GetBusClock (uint_32t Bus,uint_32t *CLK)
+uint_8t DRCC_GetBusClock (uint_32t Bus,uint_32t *CLK)
 {
 	uint_32t LocalTemp=0;
 	uint_8t LocalTempError;
