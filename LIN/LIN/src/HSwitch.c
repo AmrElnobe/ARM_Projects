@@ -20,7 +20,7 @@ static void Switch_SwitchTask (void)
 	uint_8t currentState ;
 	for (i=0;i<NUM_OF_SWITCH;i++)
 	{
-		GPIO_ReadPin(MySwitches[i].SwitchConfig.Port,MySwitches[i].SwitchConfig.Pin,&currentState);
+		DGPIO_ReadPin(MySwitches[i].SwitchConfig.Port,MySwitches[i].SwitchConfig.Pin,&currentState);
 		if (currentState==previousState[i])
 		{
 			counter[i]++;
@@ -64,7 +64,7 @@ uint_8t Switch_Init (void)
 	SwitchTask.periodicity = 5;
 	for (i=0;i<NUM_OF_SWITCH;i++)
 	{
-		LocalError=GPIO_Config(&MySwitches[i].SwitchConfig);
+		LocalError=DGPIO_Config(&MySwitches[i].SwitchConfig);
 	}
 	return LocalError;
 }
