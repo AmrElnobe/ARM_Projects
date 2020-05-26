@@ -33,7 +33,7 @@ uint_8t HUART_Init(void)
 	GPIO.Pin=PIN_9|PIN_10;
 	Local_Error=GPIO_Config(&GPIO);
 	/*Set UART initial configuration*/
-	Local_Error|=RCC_GetBusClock(APB2_BUS,&Clk);
+	Local_Error|=DRCC_GetBusClock(APB2_BUS,&Clk);
 	BaudRate_Mantissa = ( (Clk) / (16*BAUD_RATE) );
 	BaudRate_Fraction = (( ( (Clk) % (16*BAUD_RATE) ) *16 ) / (16*BAUD_RATE));
 #if MODE==DMA_MODE

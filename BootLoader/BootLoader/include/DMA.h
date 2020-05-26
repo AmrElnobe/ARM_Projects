@@ -20,13 +20,7 @@ typedef signed short int int_32t;
 #define OK	0
 #define NOK	1
 
-/***************FLAGS_OF_DMA***********************/
-typedef struct
-{
-	TC_Notification		TC;
-	HTC_Notification	HTC;
-	TE_Notification		TE;
-}Notify_t;
+
 
 /************************************************************************
  * Function name: D_DMA_Init
@@ -102,6 +96,14 @@ uint_8t D_DMA_Start(uint_32t MemoryAddress,uint_32t PeripheralAddress,uint_32t C
 typedef void (*TC_Notification)(void);
 typedef void (*HTC_Notification)(void);
 typedef void (*TE_Notification)(void);
+
+/***************FLAGS_OF_DMA***********************/
+typedef struct
+{
+	TC_Notification		TC;
+	HTC_Notification	HTC;
+	TE_Notification		TE;
+}Notify_t;
 
 /************************************************************************
  * Function name: DRCC_SetBusPrescale

@@ -1324,7 +1324,7 @@ Discarded input sections
  .data          0x00000000        0x0 ./src/DMA.o
  .bss           0x00000000        0x0 ./src/DMA.o
  .debug_macro   0x00000000      0x88c ./src/DMA.o
- .debug_macro   0x00000000       0x40 ./src/DMA.o
+ .debug_macro   0x00000000       0x6a ./src/DMA.o
  .group         0x00000000        0x8 ./src/DMA_Cfg.o
  .group         0x00000000        0x8 ./src/DMA_Cfg.o
  .group         0x00000000        0x8 ./src/DMA_Cfg.o
@@ -1332,7 +1332,7 @@ Discarded input sections
  .data          0x00000000        0x0 ./src/DMA_Cfg.o
  .bss           0x00000000        0x0 ./src/DMA_Cfg.o
  .debug_macro   0x00000000      0x88c ./src/DMA_Cfg.o
- .debug_macro   0x00000000       0x40 ./src/DMA_Cfg.o
+ .debug_macro   0x00000000       0x6a ./src/DMA_Cfg.o
  .debug_macro   0x00000000      0x154 ./src/DMA_Cfg.o
  .group         0x00000000        0x8 ./src/DNVIC.o
  .group         0x00000000        0x8 ./src/DNVIC.o
@@ -1364,22 +1364,22 @@ Discarded input sections
  .text.DNVIC_voidSetBASEPRI
                 0x00000000        0x8 ./src/DNVIC.o
  .debug_macro   0x00000000      0x88c ./src/DNVIC.o
- .debug_macro   0x00000000      0x19c ./src/DNVIC.o
+ .debug_macro   0x00000000      0x1a1 ./src/DNVIC.o
  .group         0x00000000        0x8 ./src/DRCC.o
  .group         0x00000000        0x8 ./src/DRCC.o
  .text          0x00000000        0x0 ./src/DRCC.o
  .data          0x00000000        0x0 ./src/DRCC.o
  .bss           0x00000000        0x0 ./src/DRCC.o
- .text.RCC_SetClkStatus
+ .text.DRCC_SetClkStatus
                 0x00000000       0x34 ./src/DRCC.o
- .text.RCC_SetSystemClk
+ .text.DRCC_SetSystemClk
                 0x00000000       0x70 ./src/DRCC.o
- .text.RCC_SetPLLConfig
+ .text.DRCC_SetPLLConfig
                 0x00000000       0x24 ./src/DRCC.o
- .text.RCC_SetBusPrescale
+ .text.DRCC_SetBusPrescale
                 0x00000000       0x5c ./src/DRCC.o
  .debug_macro   0x00000000      0x88c ./src/DRCC.o
- .debug_macro   0x00000000      0x184 ./src/DRCC.o
+ .debug_macro   0x00000000      0x1a8 ./src/DRCC.o
  .group         0x00000000        0x8 ./src/FLITF.o
  .group         0x00000000        0x8 ./src/FLITF.o
  .text          0x00000000        0x0 ./src/FLITF.o
@@ -1415,9 +1415,9 @@ Discarded input sections
  .text.HUART_SendBreak
                 0x00000000       0x1c ./src/HUART.o
  .debug_macro   0x00000000      0x88c ./src/HUART.o
- .debug_macro   0x00000000      0x184 ./src/HUART.o
+ .debug_macro   0x00000000      0x1a8 ./src/HUART.o
  .debug_macro   0x00000000      0x5da ./src/HUART.o
- .debug_macro   0x00000000       0x40 ./src/HUART.o
+ .debug_macro   0x00000000       0x6a ./src/HUART.o
  .debug_macro   0x00000000       0x1c ./src/HUART.o
  .group         0x00000000        0x8 ./src/UART.o
  .group         0x00000000        0x8 ./src/UART.o
@@ -1437,7 +1437,7 @@ Discarded input sections
  .text.UART_SendBreak
                 0x00000000       0x10 ./src/UART.o
  .debug_macro   0x00000000      0x88c ./src/UART.o
- .debug_macro   0x00000000      0x19c ./src/UART.o
+ .debug_macro   0x00000000      0x1a1 ./src/UART.o
  .debug_macro   0x00000000       0x2e ./src/UART.o
  .debug_macro   0x00000000       0x16 ./src/UART.o
  .text          0x00000000        0x0 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
@@ -1801,14 +1801,14 @@ END GROUP
  .text.DNVIC_ClearPendingIRQ
                 0x08000e0c       0x28 ./src/DNVIC.o
                 0x08000e0c                DNVIC_ClearPendingIRQ
- .text.RCC_GetSystemClk
+ .text.DRCC_GetSystemClk
                 0x08000e34       0x70 ./src/DRCC.o
- .text.RCC_SetPriephralStatus
+ .text.DRCC_SetPriephralStatus
                 0x08000ea4       0x8c ./src/DRCC.o
-                0x08000ea4                RCC_SetPriephralStatus
- .text.RCC_GetBusClock
+                0x08000ea4                DRCC_SetPriephralStatus
+ .text.DRCC_GetBusClock
                 0x08000f30      0x140 ./src/DRCC.o
-                0x08000f30                RCC_GetBusClock
+                0x08000f30                DRCC_GetBusClock
  .text.Flash_Unlock
                 0x08001070       0x18 ./src/FLITF.o
                 0x08001070                Flash_Unlock
@@ -2244,7 +2244,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x3f15
+.debug_info     0x00000000     0x3f16
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000       0xef ./system/src/newlib/_exit.o
  .debug_info    0x000000ef      0x11f ./system/src/newlib/_sbrk.o
@@ -2263,8 +2263,8 @@ END GROUP
  .debug_info    0x00002cbf      0x37b ./src/DNVIC.o
  .debug_info    0x0000303a      0x23a ./src/DRCC.o
  .debug_info    0x00003274      0x214 ./src/FLITF.o
- .debug_info    0x00003488      0x651 ./src/HUART.o
- .debug_info    0x00003ad9      0x43c ./src/UART.o
+ .debug_info    0x00003488      0x652 ./src/HUART.o
+ .debug_info    0x00003ada      0x43c ./src/UART.o
 
 .debug_abbrev   0x00000000     0x15b6
  *(.debug_abbrev)
@@ -2344,7 +2344,7 @@ END GROUP
  .debug_frame   0x00000cf8       0x30 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mlock.o)
  .debug_frame   0x00000d28       0x20 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-msizer.o)
 
-.debug_str      0x00000000    0x5935a
+.debug_str      0x00000000    0x5936c
  *(.debug_str)
  .debug_str     0x00000000     0x6d48 ./system/src/newlib/_exit.o
                                0x6eba (size before relaxing)
@@ -2366,23 +2366,23 @@ END GROUP
                               0x4e0d0 (size before relaxing)
  .debug_str     0x00054ab8       0x57 ./system/src/cmsis/vectors_stm32f10x.o
                                0x3075 (size before relaxing)
- .debug_str     0x00054b0f     0x2c37 ./src/BootLoader.o
-                               0x51f6 (size before relaxing)
- .debug_str     0x00057746       0xca ./src/DGPIO.o
+ .debug_str     0x00054b0f     0x2c38 ./src/BootLoader.o
+                               0x51f7 (size before relaxing)
+ .debug_str     0x00057747       0xca ./src/DGPIO.o
                                0x44d2 (size before relaxing)
- .debug_str     0x00057810      0x8ca ./src/DMA.o
+ .debug_str     0x00057811      0x8ca ./src/DMA.o
                                0x2f04 (size before relaxing)
- .debug_str     0x000580da       0x11 ./src/DMA_Cfg.o
+ .debug_str     0x000580db       0x11 ./src/DMA_Cfg.o
                                0x2cc9 (size before relaxing)
- .debug_str     0x000580eb      0x1b1 ./src/DNVIC.o
+ .debug_str     0x000580ec      0x1b1 ./src/DNVIC.o
                                0x2b22 (size before relaxing)
- .debug_str     0x0005829c      0x8d3 ./src/DRCC.o
-                               0x33e0 (size before relaxing)
- .debug_str     0x00058b6f      0x1ed ./src/FLITF.o
+ .debug_str     0x0005829d      0x8e4 ./src/DRCC.o
+                               0x33f2 (size before relaxing)
+ .debug_str     0x00058b81      0x1ed ./src/FLITF.o
                                0x27aa (size before relaxing)
- .debug_str     0x00058d5c      0x430 ./src/HUART.o
-                               0x4f8f (size before relaxing)
- .debug_str     0x0005918c      0x1ce ./src/UART.o
+ .debug_str     0x00058d6e      0x430 ./src/HUART.o
+                               0x4f90 (size before relaxing)
+ .debug_str     0x0005919e      0x1ce ./src/UART.o
                                0x2c93 (size before relaxing)
 
 .debug_loc      0x00000000     0x1c90
@@ -2439,7 +2439,7 @@ OUTPUT(BootLoader.elf elf32-littlearm)
  .debug_ranges  0x000003a0       0x48 ./src/HUART.o
  .debug_ranges  0x000003e8       0x60 ./src/UART.o
 
-.debug_macro    0x00000000     0x3538
+.debug_macro    0x00000000     0x358b
  .debug_macro   0x00000000      0x19c ./system/src/newlib/_exit.o
  .debug_macro   0x0000019c       0x9c ./system/src/newlib/_exit.o
  .debug_macro   0x00000238      0x10e ./system/src/newlib/_exit.o
@@ -2485,22 +2485,22 @@ OUTPUT(BootLoader.elf elf32-littlearm)
  .debug_macro   0x0000236e      0x16e ./system/src/cmsis/system_stm32f10x.o
  .debug_macro   0x000024dc       0x34 ./system/src/cmsis/vectors_stm32f10x.o
  .debug_macro   0x00002510       0x68 ./src/BootLoader.o
- .debug_macro   0x00002578      0x184 ./src/BootLoader.o
- .debug_macro   0x000026fc      0x5da ./src/BootLoader.o
- .debug_macro   0x00002cd6       0x40 ./src/BootLoader.o
- .debug_macro   0x00002d16      0x19c ./src/BootLoader.o
- .debug_macro   0x00002eb2       0x1c ./src/BootLoader.o
- .debug_macro   0x00002ece       0x88 ./src/BootLoader.o
- .debug_macro   0x00002f56       0x16 ./src/BootLoader.o
- .debug_macro   0x00002f6c       0x2c ./src/DGPIO.o
- .debug_macro   0x00002f98       0x41 ./src/DMA.o
- .debug_macro   0x00002fd9      0x154 ./src/DMA.o
- .debug_macro   0x0000312d       0x23 ./src/DMA_Cfg.o
- .debug_macro   0x00003150       0x2c ./src/DNVIC.o
- .debug_macro   0x0000317c      0x1a0 ./src/DRCC.o
- .debug_macro   0x0000331c       0x62 ./src/FLITF.o
- .debug_macro   0x0000337e       0x6e ./src/HUART.o
- .debug_macro   0x000033ec       0x2e ./src/HUART.o
- .debug_macro   0x0000341a       0x16 ./src/HUART.o
- .debug_macro   0x00003430       0x9a ./src/HUART.o
- .debug_macro   0x000034ca       0x6e ./src/UART.o
+ .debug_macro   0x00002578      0x1a8 ./src/BootLoader.o
+ .debug_macro   0x00002720      0x5da ./src/BootLoader.o
+ .debug_macro   0x00002cfa       0x6a ./src/BootLoader.o
+ .debug_macro   0x00002d64      0x1a1 ./src/BootLoader.o
+ .debug_macro   0x00002f05       0x1c ./src/BootLoader.o
+ .debug_macro   0x00002f21       0x88 ./src/BootLoader.o
+ .debug_macro   0x00002fa9       0x16 ./src/BootLoader.o
+ .debug_macro   0x00002fbf       0x2c ./src/DGPIO.o
+ .debug_macro   0x00002feb       0x41 ./src/DMA.o
+ .debug_macro   0x0000302c      0x154 ./src/DMA.o
+ .debug_macro   0x00003180       0x23 ./src/DMA_Cfg.o
+ .debug_macro   0x000031a3       0x2c ./src/DNVIC.o
+ .debug_macro   0x000031cf      0x1a0 ./src/DRCC.o
+ .debug_macro   0x0000336f       0x62 ./src/FLITF.o
+ .debug_macro   0x000033d1       0x6e ./src/HUART.o
+ .debug_macro   0x0000343f       0x2e ./src/HUART.o
+ .debug_macro   0x0000346d       0x16 ./src/HUART.o
+ .debug_macro   0x00003483       0x9a ./src/HUART.o
+ .debug_macro   0x0000351d       0x6e ./src/UART.o

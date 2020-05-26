@@ -282,7 +282,7 @@ uint_8t DRCC_GetBusClock (uint_32t Bus,uint_32t *CLK)
 	uint_32t LocalTemp=0;
 	uint_8t LocalTempError;
 
-	LocalTempError=RCC_GetSystemClk(&LocalTemp);
+	LocalTempError=DRCC_GetSystemClk(&LocalTemp);
 	if(!LocalTempError)
 	{
 		*CLK=LocalTemp;

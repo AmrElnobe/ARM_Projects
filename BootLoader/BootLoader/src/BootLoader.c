@@ -58,10 +58,10 @@ void main (void)
 		break ;
 	case NEW_APP_REQ :
 		/*CBF*/
-		RCC_SetPriephralStatus (GPIO_A_ENABLE,ON)  ;
-		RCC_SetPriephralStatus (GPIO_C_ENABLE,ON)  ;
-		RCC_SetPriephralStatus (USART_1_ENABLE,ON) ;
-		RCC_SetPriephralStatus(DMA_1_ENABLE,ON)    ;
+		DRCC_SetPriephralStatus (GPIO_A_ENABLE,ON)  ;
+		DRCC_SetPriephralStatus (GPIO_C_ENABLE,ON)  ;
+		DRCC_SetPriephralStatus (USART_1_ENABLE,ON) ;
+		DRCC_SetPriephralStatus(DMA_1_ENABLE,ON)    ;
 		HUART_Init()                               ;
 		/*erase old application*/
 		while(1)
@@ -70,10 +70,10 @@ void main (void)
 		}
 		break ;
 	case NO_APP :
-		RCC_SetPriephralStatus (GPIO_A_ENABLE,ON)  ;
-		RCC_SetPriephralStatus (GPIO_C_ENABLE,ON)  ;
-		RCC_SetPriephralStatus (USART_1_ENABLE,ON) ;
-		RCC_SetPriephralStatus(DMA_1_ENABLE,ON)    ;
+		DRCC_SetPriephralStatus (GPIO_A_ENABLE,ON)  ;
+		DRCC_SetPriephralStatus (GPIO_C_ENABLE,ON)  ;
+		DRCC_SetPriephralStatus (USART_1_ENABLE,ON) ;
+		DRCC_SetPriephralStatus(DMA_1_ENABLE,ON)    ;
 		HUART_Init()                               ;
 		while(1)
 		{
