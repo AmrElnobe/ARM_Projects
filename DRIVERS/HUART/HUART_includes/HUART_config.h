@@ -2,7 +2,7 @@
  * HUART_config.h
  *
  *  Created on: Mar 28, 2020
- *      Author: Mohanad el zoft
+ *      Author: Mohanad
  */
 
 #ifndef HUART_CONFIG_H_
