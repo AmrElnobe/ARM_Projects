@@ -50,6 +50,7 @@ Lcd_Ypos            0x1               ./src/HLCD.o
 LCDTask             0x8               ./src/HLCD.o
 idx                 0x1               ./src/Sched.o
 Clk                 0x4               ./src/HUART.o
+tt                  0x5               ./src/LIN.o
 SysTask             0x10              ./src/Sched.o
 SwitchStates        0x5               ./src/HSwitch.o
 Notification_Send   0xc               ./src/HUART.o
@@ -1502,15 +1503,15 @@ Discarded input sections
  .text.Switch_SwitchTask
                 0x00000000       0xc0 ./src/HSwitch.o
  .text.Switch_Init
-                0x00000000       0x38 ./src/HSwitch.o
+                0x00000000       0x3c ./src/HSwitch.o
  .text.Switch_GetSwitchState
                 0x00000000       0x4c ./src/HSwitch.o
  .bss.counter.3784
                 0x00000000        0x5 ./src/HSwitch.o
  .bss.previousState.3783
                 0x00000000        0x5 ./src/HSwitch.o
- .debug_info    0x00000000      0x311 ./src/HSwitch.o
- .debug_abbrev  0x00000000      0x16a ./src/HSwitch.o
+ .debug_info    0x00000000      0x34c ./src/HSwitch.o
+ .debug_abbrev  0x00000000      0x196 ./src/HSwitch.o
  .debug_loc     0x00000000      0x195 ./src/HSwitch.o
  .debug_aranges
                 0x00000000       0x30 ./src/HSwitch.o
@@ -1524,7 +1525,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x1c ./src/HSwitch.o
  .debug_macro   0x00000000       0x1c ./src/HSwitch.o
  .debug_line    0x00000000      0x13b ./src/HSwitch.o
- .debug_str     0x00000000     0x4b7e ./src/HSwitch.o
+ .debug_str     0x00000000     0x4b80 ./src/HSwitch.o
  .comment       0x00000000       0x6f ./src/HSwitch.o
  .debug_frame   0x00000000       0x70 ./src/HSwitch.o
  .ARM.attributes
@@ -1580,11 +1581,10 @@ Discarded input sections
  .text          0x00000000        0x0 ./src/LIN.o
  .data          0x00000000        0x0 ./src/LIN.o
  .bss           0x00000000        0x0 ./src/LIN.o
- .text.LIN_SetTxCbf
-                0x00000000       0x14 ./src/LIN.o
  .debug_macro   0x00000000      0x88c ./src/LIN.o
  .debug_macro   0x00000000       0x1c ./src/LIN.o
  .debug_macro   0x00000000       0x16 ./src/LIN.o
+ COMMON         0x00000000        0x5 ./src/LIN.o
  .group         0x00000000        0x8 ./src/LIN_cfg.o
  .group         0x00000000        0x8 ./src/LIN_cfg.o
  .group         0x00000000        0x8 ./src/LIN_cfg.o
@@ -1785,7 +1785,7 @@ END GROUP
                 0x20004c00                __Main_Stack_Limit = (__stack - __Main_Stack_Size)
                 [!provide]                PROVIDE (_Main_Stack_Limit, __Main_Stack_Limit)
                 0x00000100                _Minimum_Stack_Size = 0x100
-                0x2000021c                PROVIDE (_Heap_Begin, _end_noinit)
+                0x20000220                PROVIDE (_Heap_Begin, _end_noinit)
                 0x20004c00                PROVIDE (_Heap_Limit, (__stack - __Main_Stack_Size))
 
 .isr_vector     0x08000000      0x354
@@ -1898,16 +1898,16 @@ END GROUP
 
 .inits          0x08000354       0x28
                 0x08000354                __data_regions_array_start = .
-                0x08000354        0x4 LONG 0x80023ec LOADADDR (.data)
+                0x08000354        0x4 LONG 0x800247c LOADADDR (.data)
                 0x08000358        0x4 LONG 0x20000000 ADDR (.data)
                 0x0800035c        0x4 LONG 0x200000b0 (ADDR (.data) + SIZEOF (.data))
-                0x08000360        0x4 LONG 0x80023ec LOADADDR (.data_CCMRAM)
+                0x08000360        0x4 LONG 0x800247c LOADADDR (.data_CCMRAM)
                 0x08000364        0x4 LONG 0x0 ADDR (.data_CCMRAM)
                 0x08000368        0x4 LONG 0x0 (ADDR (.data_CCMRAM) + SIZEOF (.data_CCMRAM))
                 0x0800036c                __data_regions_array_end = .
                 0x0800036c                __bss_regions_array_start = .
                 0x0800036c        0x4 LONG 0x200000b0 ADDR (.bss)
-                0x08000370        0x4 LONG 0x2000021c (ADDR (.bss) + SIZEOF (.bss))
+                0x08000370        0x4 LONG 0x20000220 (ADDR (.bss) + SIZEOF (.bss))
                 0x08000374        0x4 LONG 0x0 ADDR (.bss_CCMRAM)
                 0x08000378        0x4 LONG 0x0 (ADDR (.bss_CCMRAM) + SIZEOF (.bss_CCMRAM))
                 0x0800037c                __bss_regions_array_end = .
@@ -1933,7 +1933,7 @@ END GROUP
 .flashtext
  *(.flashtext .flashtext.*)
 
-.text           0x08000380     0x2063
+.text           0x08000380     0x20f3
  *(.text .text.*)
  .text._exit    0x08000380        0x4 ./system/src/newlib/_exit.o
                 0x08000380                _exit
@@ -1988,259 +1988,264 @@ END GROUP
                 0x080009b4       0x30 ./src/DMA.o
                 0x080009b4                D_DMA_SetNotifyCbf
  .text.DMA1_Channel1_IRQHandler
-                0x080009e4       0x28 ./src/DMA.o
+                0x080009e4       0x30 ./src/DMA.o
                 0x080009e4                DMA1_Channel1_IRQHandler
  .text.DMA1_Channel2_IRQHandler
-                0x08000a0c       0x28 ./src/DMA.o
-                0x08000a0c                DMA1_Channel2_IRQHandler
+                0x08000a14       0x30 ./src/DMA.o
+                0x08000a14                DMA1_Channel2_IRQHandler
  .text.DMA1_Channel3_IRQHandler
-                0x08000a34       0x28 ./src/DMA.o
-                0x08000a34                DMA1_Channel3_IRQHandler
+                0x08000a44       0x30 ./src/DMA.o
+                0x08000a44                DMA1_Channel3_IRQHandler
  .text.DMA1_Channel4_IRQHandler
-                0x08000a5c       0x28 ./src/DMA.o
-                0x08000a5c                DMA1_Channel4_IRQHandler
+                0x08000a74       0x30 ./src/DMA.o
+                0x08000a74                DMA1_Channel4_IRQHandler
  .text.DMA1_Channel5_IRQHandler
-                0x08000a84       0x28 ./src/DMA.o
-                0x08000a84                DMA1_Channel5_IRQHandler
+                0x08000aa4       0x30 ./src/DMA.o
+                0x08000aa4                DMA1_Channel5_IRQHandler
  .text.DMA1_Channel6_IRQHandler
-                0x08000aac       0x28 ./src/DMA.o
-                0x08000aac                DMA1_Channel6_IRQHandler
+                0x08000ad4       0x30 ./src/DMA.o
+                0x08000ad4                DMA1_Channel6_IRQHandler
  .text.DMA1_Channel7_IRQHandler
-                0x08000ad4       0x28 ./src/DMA.o
-                0x08000ad4                DMA1_Channel7_IRQHandler
+                0x08000b04       0x34 ./src/DMA.o
+                0x08000b04                DMA1_Channel7_IRQHandler
  .text.DNVIC_EnableIRQ
-                0x08000afc       0x24 ./src/DNVIC.o
-                0x08000afc                DNVIC_EnableIRQ
+                0x08000b38       0x24 ./src/DNVIC.o
+                0x08000b38                DNVIC_EnableIRQ
  .text.DNVIC_ClearPendingIRQ
-                0x08000b20       0x28 ./src/DNVIC.o
-                0x08000b20                DNVIC_ClearPendingIRQ
+                0x08000b5c       0x28 ./src/DNVIC.o
+                0x08000b5c                DNVIC_ClearPendingIRQ
  .text.RCC_GetSystemClk
-                0x08000b48       0x70 ./src/DRCC.o
+                0x08000b84       0x70 ./src/DRCC.o
  .text.RCC_SetPriephralStatus
-                0x08000bb8       0x8c ./src/DRCC.o
-                0x08000bb8                RCC_SetPriephralStatus
+                0x08000bf4       0x8c ./src/DRCC.o
+                0x08000bf4                RCC_SetPriephralStatus
  .text.RCC_GetBusClock
-                0x08000c44      0x140 ./src/DRCC.o
-                0x08000c44                RCC_GetBusClock
+                0x08000c80      0x140 ./src/DRCC.o
+                0x08000c80                RCC_GetBusClock
  .text.SYSTICK_Init
-                0x08000d84       0x14 ./src/DSYSTICK.o
-                0x08000d84                SYSTICK_Init
+                0x08000dc0       0x14 ./src/DSYSTICK.o
+                0x08000dc0                SYSTICK_Init
  .text.SYSTICK_Start
-                0x08000d98       0x14 ./src/DSYSTICK.o
-                0x08000d98                SYSTICK_Start
+                0x08000dd4       0x14 ./src/DSYSTICK.o
+                0x08000dd4                SYSTICK_Start
  .text.SYSTICK_SetCallback
-                0x08000dac       0x14 ./src/DSYSTICK.o
-                0x08000dac                SYSTICK_SetCallback
+                0x08000de8       0x14 ./src/DSYSTICK.o
+                0x08000de8                SYSTICK_SetCallback
  .text.SYSTICK_SetTime
-                0x08000dc0       0x54 ./src/DSYSTICK.o
-                0x08000dc0                SYSTICK_SetTime
+                0x08000dfc       0x54 ./src/DSYSTICK.o
+                0x08000dfc                SYSTICK_SetTime
  .text.SysTick_Handler
-                0x08000e14       0x14 ./src/DSYSTICK.o
-                0x08000e14                SysTick_Handler
+                0x08000e50       0x14 ./src/DSYSTICK.o
+                0x08000e50                SysTick_Handler
  .text.HLED_Init
-                0x08000e28       0x20 ./src/HLED.o
-                0x08000e28                HLED_Init
+                0x08000e64       0x20 ./src/HLED.o
+                0x08000e64                HLED_Init
  .text.HLED_SetLedState
-                0x08000e48       0x40 ./src/HLED.o
-                0x08000e48                HLED_SetLedState
+                0x08000e84       0x40 ./src/HLED.o
+                0x08000e84                HLED_SetLedState
  .text.HUART_Init
-                0x08000e88       0x94 ./src/HUART.o
-                0x08000e88                HUART_Init
+                0x08000ec4       0x9c ./src/HUART.o
+                0x08000ec4                HUART_Init
  .text.HUART_Send
-                0x08000f1c       0x2c ./src/HUART.o
-                0x08000f1c                HUART_Send
+                0x08000f60       0x2c ./src/HUART.o
+                0x08000f60                HUART_Send
  .text.HUART_Receive
-                0x08000f48       0x2c ./src/HUART.o
-                0x08000f48                HUART_Receive
+                0x08000f8c       0x2c ./src/HUART.o
+                0x08000f8c                HUART_Receive
  .text.HUART_SetTxCbf
-                0x08000f74       0x10 ./src/HUART.o
-                0x08000f74                HUART_SetTxCbf
+                0x08000fb8       0x10 ./src/HUART.o
+                0x08000fb8                HUART_SetTxCbf
  .text.HUART_SetRxCbf
-                0x08000f84       0x10 ./src/HUART.o
-                0x08000f84                HUART_SetRxCbf
+                0x08000fc8       0x10 ./src/HUART.o
+                0x08000fc8                HUART_SetRxCbf
  .text.HUART_SetLBDCbf
-                0x08000f94       0x10 ./src/HUART.o
-                0x08000f94                HUART_SetLBDCbf
+                0x08000fd8       0x10 ./src/HUART.o
+                0x08000fd8                HUART_SetLBDCbf
  .text.HUART_SendBreak
-                0x08000fa4       0x1c ./src/HUART.o
-                0x08000fa4                HUART_SendBreak
+                0x08000fe8       0x1c ./src/HUART.o
+                0x08000fe8                HUART_SendBreak
  .text.RxHeaderDone
-                0x08000fc0        0xc ./src/LIN.o
+                0x08001004        0xc ./src/LIN.o
+ .text.temp     0x08001010        0x4 ./src/LIN.o
  .text.ReceivedDone
-                0x08000fcc       0x50 ./src/LIN.o
- .text.ReceiveCheckSum
-                0x0800101c       0x1c ./src/LIN.o
- .text.startRxHeader
-                0x08001038       0x1c ./src/LIN.o
- .text.LIN_Runnable
-                0x08001054      0x170 ./src/LIN.o
+                0x08001014       0x50 ./src/LIN.o
  .text.TransmitCheckSum
-                0x080011c4       0x50 ./src/LIN.o
+                0x08001064       0x50 ./src/LIN.o
+ .text.LIN_Runnable
+                0x080010b4      0x178 ./src/LIN.o
+ .text.ReceiveCheckSum
+                0x0800122c       0x1c ./src/LIN.o
+ .text.startRxHeader
+                0x08001248       0x1c ./src/LIN.o
  .text.LIN_Init
-                0x08001214       0x18 ./src/LIN.o
-                0x08001214                LIN_Init
+                0x08001264       0x18 ./src/LIN.o
+                0x08001264                LIN_Init
+ .text.LIN_SetTxCbf
+                0x0800127c       0x14 ./src/LIN.o
+                0x0800127c                LIN_SetTxCbf
  .text.LIN_SetRxCbf
-                0x0800122c       0x14 ./src/LIN.o
-                0x0800122c                LIN_SetRxCbf
+                0x08001290       0x14 ./src/LIN.o
+                0x08001290                LIN_SetRxCbf
  .text.LIN_SendData
-                0x08001240       0x44 ./src/LIN.o
-                0x08001240                LIN_SendData
+                0x080012a4       0x44 ./src/LIN.o
+                0x080012a4                LIN_SendData
  .text.LIN_ReceiveData
-                0x08001284       0x44 ./src/LIN.o
-                0x08001284                LIN_ReceiveData
+                0x080012e8       0x44 ./src/LIN.o
+                0x080012e8                LIN_ReceiveData
  .text.Sched_SetOSFlag
-                0x080012c8       0x10 ./src/Sched.o
- .text.Sched    0x080012d8       0x60 ./src/Sched.o
+                0x0800132c       0x10 ./src/Sched.o
+ .text.Sched    0x0800133c       0x60 ./src/Sched.o
  .text.Sched_Init
-                0x08001338       0x6c ./src/Sched.o
-                0x08001338                Sched_Init
+                0x0800139c       0x6c ./src/Sched.o
+                0x0800139c                Sched_Init
  .text.Sched_Start
-                0x080013a4       0x20 ./src/Sched.o
-                0x080013a4                Sched_Start
+                0x08001408       0x20 ./src/Sched.o
+                0x08001408                Sched_Start
  .text.UART_Init
-                0x080013c4       0x38 ./src/UART.o
-                0x080013c4                UART_Init
+                0x08001428       0x3c ./src/UART.o
+                0x08001428                UART_Init
  .text.UART_SetTxCbf
-                0x080013fc        0xc ./src/UART.o
-                0x080013fc                UART_SetTxCbf
+                0x08001464        0xc ./src/UART.o
+                0x08001464                UART_SetTxCbf
  .text.UART_SetRxCbf
-                0x08001408        0xc ./src/UART.o
-                0x08001408                UART_SetRxCbf
+                0x08001470        0xc ./src/UART.o
+                0x08001470                UART_SetRxCbf
  .text.UART_SetLBDCbf
-                0x08001414        0xc ./src/UART.o
-                0x08001414                UART_SetLBDCbf
+                0x0800147c        0xc ./src/UART.o
+                0x0800147c                UART_SetLBDCbf
  .text.USART1_IRQHandler
-                0x08001420       0xcc ./src/UART.o
-                0x08001420                USART1_IRQHandler
+                0x08001488       0xe0 ./src/UART.o
+                0x08001488                USART1_IRQHandler
  .text.DMA_ChannelFour_Finish
-                0x080014ec       0x28 ./src/UART.o
-                0x080014ec                DMA_ChannelFour_Finish
+                0x08001568       0x28 ./src/UART.o
+                0x08001568                DMA_ChannelFour_Finish
  .text.DMA_ChannelFive_Finish
-                0x08001514       0x10 ./src/UART.o
-                0x08001514                DMA_ChannelFive_Finish
+                0x08001590       0x10 ./src/UART.o
+                0x08001590                DMA_ChannelFive_Finish
  .text.UART_SendBreak
-                0x08001524       0x10 ./src/UART.o
-                0x08001524                UART_SendBreak
- .text.t_func   0x08001534       0x28 ./src/main.o
-                0x08001534                t_func
- .text.main     0x0800155c       0x64 ./src/main.o
-                0x0800155c                main
- .text          0x080015c0       0x30 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_aeabi_uldivmod.o)
-                0x080015c0                __aeabi_uldivmod
- .text          0x080015f0      0x2ec c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_udivmoddi4.o)
-                0x080015f0                __udivmoddi4
- .text          0x080018dc        0x4 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_dvmd_tls.o)
-                0x080018dc                __aeabi_idiv0
-                0x080018dc                __aeabi_ldiv0
- .text.__errno  0x080018e0        0xc c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
-                0x080018e0                __errno
+                0x080015a0       0x10 ./src/UART.o
+                0x080015a0                UART_SendBreak
+ .text.t2       0x080015b0        0x4 ./src/main.o
+                0x080015b0                t2
+ .text.t_func   0x080015b4       0x28 ./src/main.o
+                0x080015b4                t_func
+ .text.main     0x080015dc       0x78 ./src/main.o
+                0x080015dc                main
+ .text          0x08001654       0x30 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_aeabi_uldivmod.o)
+                0x08001654                __aeabi_uldivmod
+ .text          0x08001684      0x2ec c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_udivmoddi4.o)
+                0x08001684                __udivmoddi4
+ .text          0x08001970        0x4 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_dvmd_tls.o)
+                0x08001970                __aeabi_idiv0
+                0x08001970                __aeabi_ldiv0
+ .text.__errno  0x08001974        0xc c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
+                0x08001974                __errno
  .text._vsnprintf_r
-                0x080018ec       0x56 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-vsnprintf.o)
-                0x080018ec                _vsniprintf_r
-                0x080018ec                _vsnprintf_r
- *fill*         0x08001942        0x2 
+                0x08001980       0x56 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-vsnprintf.o)
+                0x08001980                _vsniprintf_r
+                0x08001980                _vsnprintf_r
+ *fill*         0x080019d6        0x2 
  .text.vsnprintf
-                0x08001944       0x1c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-vsnprintf.o)
-                0x08001944                vsniprintf
-                0x08001944                vsnprintf
+                0x080019d8       0x1c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-vsnprintf.o)
+                0x080019d8                vsniprintf
+                0x080019d8                vsnprintf
  .text.__ssputs_r
-                0x08001960       0xb2 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-svfprintf.o)
-                0x08001960                __ssputs_r
- *fill*         0x08001a12        0x2 
+                0x080019f4       0xb2 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-svfprintf.o)
+                0x080019f4                __ssputs_r
+ *fill*         0x08001aa6        0x2 
  .text._svfprintf_r
-                0x08001a14      0x1e8 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-svfprintf.o)
-                0x08001a14                _svfiprintf_r
-                0x08001a14                _svfprintf_r
+                0x08001aa8      0x1e8 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-svfprintf.o)
+                0x08001aa8                _svfiprintf_r
+                0x08001aa8                _svfprintf_r
  .text._printf_common
-                0x08001bfc       0xec c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-vfprintf_i.o)
-                0x08001bfc                _printf_common
+                0x08001c90       0xec c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-vfprintf_i.o)
+                0x08001c90                _printf_common
  .text._printf_i
-                0x08001ce8      0x24c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-vfprintf_i.o)
-                0x08001ce8                _printf_i
- .text.memchr   0x08001f34       0x1c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memchr-stub.o)
-                0x08001f34                memchr
- .text.memcpy   0x08001f50       0x16 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memcpy-stub.o)
-                0x08001f50                memcpy
- .text.memmove  0x08001f66       0x36 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memmove.o)
-                0x08001f66                memmove
- .text._free_r  0x08001f9c       0x98 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-freer.o)
-                0x08001f9c                _free_r
+                0x08001d7c      0x24c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-vfprintf_i.o)
+                0x08001d7c                _printf_i
+ .text.memchr   0x08001fc8       0x1c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memchr-stub.o)
+                0x08001fc8                memchr
+ .text.memcpy   0x08001fe4       0x16 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memcpy-stub.o)
+                0x08001fe4                memcpy
+ .text.memmove  0x08001ffa       0x36 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memmove.o)
+                0x08001ffa                memmove
+ .text._free_r  0x08002030       0x98 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-freer.o)
+                0x08002030                _free_r
  .text._malloc_r
-                0x08002034       0xbc c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
-                0x08002034                _malloc_r
+                0x080020c8       0xbc c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
+                0x080020c8                _malloc_r
  .text._realloc_r
-                0x080020f0       0x4c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-reallocr.o)
-                0x080020f0                _realloc_r
- .text._sbrk_r  0x0800213c       0x20 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
-                0x0800213c                _sbrk_r
+                0x08002184       0x4c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-reallocr.o)
+                0x08002184                _realloc_r
+ .text._sbrk_r  0x080021d0       0x20 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
+                0x080021d0                _sbrk_r
  .text.__malloc_lock
-                0x0800215c        0x2 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mlock.o)
-                0x0800215c                __malloc_lock
+                0x080021f0        0x2 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mlock.o)
+                0x080021f0                __malloc_lock
  .text.__malloc_unlock
-                0x0800215e        0x2 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mlock.o)
-                0x0800215e                __malloc_unlock
+                0x080021f2        0x2 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mlock.o)
+                0x080021f2                __malloc_unlock
  .text._malloc_usable_size_r
-                0x08002160       0x14 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-msizer.o)
-                0x08002160                _malloc_usable_size_r
+                0x080021f4       0x14 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-msizer.o)
+                0x080021f4                _malloc_usable_size_r
  *(.rodata .rodata.* .constdata .constdata.*)
  .rodata.str1.4
-                0x08002174      0x148 ./system/src/cortexm/exception_handlers.o
+                0x08002208      0x148 ./system/src/cortexm/exception_handlers.o
                                 0x146 (size before relaxing)
  .rodata.DMA_Configure
-                0x080022bc       0x90 ./src/DMA_Cfg.o
-                0x080022bc                DMA_Configure
- .rodata.LED    0x0800234c       0x18 ./src/HLED_config.o
-                0x0800234c                LED
- *fill*         0x08002364        0x4 
+                0x08002350       0x90 ./src/DMA_Cfg.o
+                0x08002350                DMA_Configure
+ .rodata.LED    0x080023e0       0x18 ./src/HLED_config.o
+                0x080023e0                LED
  .rodata.LED_Init
-                0x08002368       0x40 ./src/HLED_config.o
-                0x08002368                LED_Init
+                0x080023f8       0x40 ./src/HLED_config.o
+                0x080023f8                LED_Init
  .rodata.SysTask_info
-                0x080023a8        0x8 ./src/Sched_config.o
-                0x080023a8                SysTask_info
+                0x08002438        0x8 ./src/Sched_config.o
+                0x08002438                SysTask_info
  .rodata.str1.1
-                0x080023b0       0x11 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-svfprintf.o)
+                0x08002440       0x11 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-svfprintf.o)
  .rodata.str1.1
-                0x080023c1       0x22 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-vfprintf_i.o)
+                0x08002451       0x22 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-vfprintf_i.o)
  *(vtable)
  *(.eh_frame*)
  *(.glue_7)
- .glue_7        0x080023e3        0x0 linker stubs
+ .glue_7        0x08002473        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x080023e3        0x0 linker stubs
+ .glue_7t       0x08002473        0x0 linker stubs
 
-.vfp11_veneer   0x080023e4        0x0
- .vfp11_veneer  0x080023e4        0x0 linker stubs
+.vfp11_veneer   0x08002474        0x0
+ .vfp11_veneer  0x08002474        0x0 linker stubs
 
-.v4_bx          0x080023e4        0x0
- .v4_bx         0x080023e4        0x0 linker stubs
+.v4_bx          0x08002474        0x0
+ .v4_bx         0x08002474        0x0 linker stubs
 
-.iplt           0x080023e4        0x0
- .iplt          0x080023e4        0x0 ./system/src/stm32f1-stdperiph/misc.o
+.iplt           0x08002474        0x0
+ .iplt          0x08002474        0x0 ./system/src/stm32f1-stdperiph/misc.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x080023e4                . = ALIGN (0x4)
-                0x080023e4                __exidx_start = .
+                0x08002474                . = ALIGN (0x4)
+                0x08002474                __exidx_start = .
 
-.ARM.exidx      0x080023e4        0x8
+.ARM.exidx      0x08002474        0x8
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
- .ARM.exidx     0x080023e4        0x8 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_udivmoddi4.o)
-                0x080023ec                __exidx_end = .
+ .ARM.exidx     0x08002474        0x8 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_udivmoddi4.o)
+                0x0800247c                __exidx_end = .
 
-.rel.dyn        0x080023ec        0x0
- .rel.iplt      0x080023ec        0x0 ./system/src/stm32f1-stdperiph/misc.o
-                0x080023ec                . = ALIGN (0x4)
-                0x080023ec                _etext = .
-                0x080023ec                __etext = .
+.rel.dyn        0x0800247c        0x0
+ .rel.iplt      0x0800247c        0x0 ./system/src/stm32f1-stdperiph/misc.o
+                0x0800247c                . = ALIGN (0x4)
+                0x0800247c                _etext = .
+                0x0800247c                __etext = .
 
-.data_CCMRAM    0x00000000        0x0 load address 0x080023ec
+.data_CCMRAM    0x00000000        0x0 load address 0x0800247c
  FILL mask 0xff
  *(.data.CCMRAM .data.CCMRAM.*)
                 0x00000000                . = ALIGN (0x4)
-                0x080023ec                _sidata = LOADADDR (.data)
+                0x0800247c                _sidata = LOADADDR (.data)
 
-.data           0x20000000       0xb0 load address 0x080023ec
+.data           0x20000000       0xb0 load address 0x0800247c
  FILL mask 0xff
                 0x20000000                _sdata = .
                 0x20000000                __data_start__ = .
@@ -2281,13 +2286,13 @@ END GROUP
                 0x200000b0                _edata = .
                 0x200000b0                __data_end__ = .
 
-.igot.plt       0x200000b0        0x0 load address 0x0800249c
+.igot.plt       0x200000b0        0x0 load address 0x0800252c
  .igot.plt      0x200000b0        0x0 ./system/src/stm32f1-stdperiph/misc.o
 
 .bss_CCMRAM     0x00000000        0x0
  *(.bss.CCMRAM .bss.CCMRAM.*)
 
-.bss            0x200000b0      0x16c
+.bss            0x200000b0      0x170
                 0x200000b0                __bss_start__ = .
                 0x200000b0                _sbss = .
  *(.bss_begin .bss_begin.*)
@@ -2299,74 +2304,79 @@ END GROUP
                 0x200000b8        0x1 ./system/src/newlib/_syscalls.o
  *fill*         0x200000b9        0x3 
  .bss.buf.5179  0x200000bc       0x80 ./system/src/diag/Trace.o
+ .bss.UART_mode
+                0x2000013c        0x1 ./src/HUART.o
+                0x2000013c                UART_mode
+ .bss.msgCounter.3814
+                0x2000013d        0x1 ./src/LIN.o
  .bss.CurrentMsgID
-                0x2000013c        0x1 ./src/LIN.o
- *fill*         0x2000013d        0x3 
+                0x2000013e        0x1 ./src/LIN.o
+ *fill*         0x2000013f        0x1 
  .bss.TxNotify  0x20000140        0x4 ./src/LIN.o
  .bss.RxNotify  0x20000144        0x4 ./src/LIN.o
  .bss.CheckSum  0x20000148        0x1 ./src/LIN.o
  .bss.headerReceivedFlag
                 0x20000149        0x1 ./src/LIN.o
- .bss.msgCounter.3812
-                0x2000014a        0x1 ./src/LIN.o
- *fill*         0x2000014b        0x1 
- .bss.receivedHeader
-                0x2000014c        0x2 ./src/LIN.o
- .bss.delay.3813
-                0x2000014e        0x1 ./src/LIN.o
+ *fill*         0x2000014a        0x2 
+ .bss.currentHeader.3813
+                0x2000014c        0x3 ./src/LIN.o
  *fill*         0x2000014f        0x1 
- .bss.RxNotify  0x20000150        0x4 ./src/UART.o
+ .bss.receivedHeader
+                0x20000150        0x3 ./src/LIN.o
+ .bss.delay.3815
+                0x20000153        0x1 ./src/LIN.o
+ .bss.RxNotify  0x20000154        0x4 ./src/UART.o
  .bss.LBDNotify
-                0x20000154        0x4 ./src/UART.o
- .bss.TxNotify  0x20000158        0x4 ./src/UART.o
- .bss.RxBuffer  0x2000015c       0x10 ./src/UART.o
- .bss.TxBuffer  0x2000016c       0x10 ./src/UART.o
+                0x20000158        0x4 ./src/UART.o
+ .bss.TxNotify  0x2000015c        0x4 ./src/UART.o
+ .bss.RxBuffer  0x20000160       0x10 ./src/UART.o
+ .bss.TxBuffer  0x20000170       0x10 ./src/UART.o
  .bss.__malloc_sbrk_start
-                0x2000017c        0x4 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
-                0x2000017c                __malloc_sbrk_start
- .bss.__malloc_free_list
                 0x20000180        0x4 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
-                0x20000180                __malloc_free_list
+                0x20000180                __malloc_sbrk_start
+ .bss.__malloc_free_list
+                0x20000184        0x4 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
+                0x20000184                __malloc_free_list
  *(COMMON)
- COMMON         0x20000184        0x4 ./system/src/newlib/_syscalls.o
-                0x20000184                errno
- COMMON         0x20000188       0x54 ./src/DMA.o
-                0x20000188                NotificationArray
- COMMON         0x200001dc        0x4 ./src/DSYSTICK.o
-                0x200001dc                APPcbf
- COMMON         0x200001e0       0x1c ./src/HUART.o
-                0x200001e0                Clk
-                0x200001e4                Notification_Send
-                0x200001f0                Notification_Receive
- COMMON         0x200001fc       0x18 ./src/Sched.o
-                0x200001fc                idx
-                0x20000200                SysTask
-                0x20000210                OSFlag
- COMMON         0x20000214        0x3 ./src/main.o
-                0x20000214                arr2
+ COMMON         0x20000188        0x4 ./system/src/newlib/_syscalls.o
+                0x20000188                errno
+ COMMON         0x2000018c       0x54 ./src/DMA.o
+                0x2000018c                NotificationArray
+ COMMON         0x200001e0        0x4 ./src/DSYSTICK.o
+                0x200001e0                APPcbf
+ COMMON         0x200001e4       0x1c ./src/HUART.o
+                0x200001e4                Clk
+                0x200001e8                Notification_Send
+                0x200001f4                Notification_Receive
+ COMMON         0x20000200       0x18 ./src/Sched.o
+                0x20000200                idx
+                0x20000204                SysTask
+                0x20000214                OSFlag
+ COMMON         0x20000218        0x3 ./src/main.o
+                0x20000218                arr2
  *(.bss_end .bss_end.*)
- *fill*         0x20000217        0x1 
- .bss_end       0x20000218        0x4 ./system/src/newlib/_startup.o
-                0x2000021c                . = ALIGN (0x4)
-                0x2000021c                __bss_end__ = .
-                0x2000021c                _ebss = .
+ *fill*         0x2000021b        0x1 
+ .bss_end       0x2000021c        0x4 ./system/src/newlib/_startup.o
+                0x20000220                . = ALIGN (0x4)
+                0x20000220                __bss_end__ = .
+                0x20000220                _ebss = .
 
 .noinit_CCMRAM
  *(.noinit.CCMRAM .noinit.CCMRAM.*)
 
-.noinit         0x2000021c        0x0
-                0x2000021c                _noinit = .
+.noinit         0x20000220        0x0
+                0x20000220                _noinit = .
  *(.noinit .noinit.*)
-                0x2000021c                . = ALIGN (0x4)
-                0x2000021c                _end_noinit = .
+                0x20000220                . = ALIGN (0x4)
+                0x20000220                _end_noinit = .
                 [!provide]                PROVIDE (end, _end_noinit)
                 [!provide]                PROVIDE (_end, _end_noinit)
                 [!provide]                PROVIDE (__end, _end_noinit)
                 [!provide]                PROVIDE (__end__, _end_noinit)
 
-._check_stack   0x2000021c      0x100
-                0x2000031c                . = (. + _Minimum_Stack_Size)
- *fill*         0x2000021c      0x100 
+._check_stack   0x20000220      0x100
+                0x20000320                . = (. + _Minimum_Stack_Size)
+ *fill*         0x20000220      0x100 
 
 .b1text
  *(.b1text)
@@ -2539,7 +2549,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x618
+.debug_aranges  0x00000000      0x628
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x28 ./system/src/newlib/_exit.o
@@ -2580,22 +2590,22 @@ END GROUP
  .debug_aranges
                 0x00000448       0x58 ./src/HUART.o
  .debug_aranges
-                0x000004a0       0x70 ./src/LIN.o
+                0x000004a0       0x78 ./src/LIN.o
  .debug_aranges
-                0x00000510       0x18 ./src/LIN_cfg.o
+                0x00000518       0x18 ./src/LIN_cfg.o
  .debug_aranges
-                0x00000528       0x40 ./src/Sched.o
+                0x00000530       0x40 ./src/Sched.o
  .debug_aranges
-                0x00000568       0x18 ./src/Sched_config.o
+                0x00000570       0x18 ./src/Sched_config.o
  .debug_aranges
-                0x00000580       0x70 ./src/UART.o
+                0x00000588       0x70 ./src/UART.o
  .debug_aranges
-                0x000005f0       0x28 ./src/main.o
+                0x000005f8       0x30 ./src/main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x48d3
+.debug_info     0x00000000     0x4999
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000       0xef ./system/src/newlib/_exit.o
  .debug_info    0x000000ef      0x11f ./system/src/newlib/_sbrk.o
@@ -2615,15 +2625,15 @@ END GROUP
  .debug_info    0x00002c5b      0x149 ./src/DSYSTICK.o
  .debug_info    0x00002da4      0x266 ./src/HLED.o
  .debug_info    0x0000300a      0x1cc ./src/HLED_config.o
- .debug_info    0x000031d6      0x640 ./src/HUART.o
- .debug_info    0x00003816      0x5ac ./src/LIN.o
- .debug_info    0x00003dc2      0x114 ./src/LIN_cfg.o
- .debug_info    0x00003ed6      0x2ae ./src/Sched.o
- .debug_info    0x00004184      0x104 ./src/Sched_config.o
- .debug_info    0x00004288      0x431 ./src/UART.o
- .debug_info    0x000046b9      0x21a ./src/main.o
+ .debug_info    0x000031d6      0x651 ./src/HUART.o
+ .debug_info    0x00003827      0x607 ./src/LIN.o
+ .debug_info    0x00003e2e      0x114 ./src/LIN_cfg.o
+ .debug_info    0x00003f42      0x2ae ./src/Sched.o
+ .debug_info    0x000041f0      0x104 ./src/Sched_config.o
+ .debug_info    0x000042f4      0x43c ./src/UART.o
+ .debug_info    0x00004730      0x269 ./src/main.o
 
-.debug_abbrev   0x00000000     0x1b12
+.debug_abbrev   0x00000000     0x1b49
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0x8e ./system/src/newlib/_exit.o
  .debug_abbrev  0x0000008e       0xb9 ./system/src/newlib/_sbrk.o
@@ -2644,14 +2654,14 @@ END GROUP
  .debug_abbrev  0x000011c2      0x116 ./src/HLED.o
  .debug_abbrev  0x000012d8       0xc3 ./src/HLED_config.o
  .debug_abbrev  0x0000139b      0x15e ./src/HUART.o
- .debug_abbrev  0x000014f9      0x194 ./src/LIN.o
- .debug_abbrev  0x0000168d       0x82 ./src/LIN_cfg.o
- .debug_abbrev  0x0000170f      0x18c ./src/Sched.o
- .debug_abbrev  0x0000189b       0x92 ./src/Sched_config.o
- .debug_abbrev  0x0000192d      0x139 ./src/UART.o
- .debug_abbrev  0x00001a66       0xac ./src/main.o
+ .debug_abbrev  0x000014f9      0x1a5 ./src/LIN.o
+ .debug_abbrev  0x0000169e       0x82 ./src/LIN_cfg.o
+ .debug_abbrev  0x00001720      0x18c ./src/Sched.o
+ .debug_abbrev  0x000018ac       0x92 ./src/Sched_config.o
+ .debug_abbrev  0x0000193e      0x147 ./src/UART.o
+ .debug_abbrev  0x00001a85       0xc4 ./src/main.o
 
-.debug_line     0x00000000     0x364a
+.debug_line     0x00000000     0x3677
  *(.debug_line)
  .debug_line    0x00000000      0x349 ./system/src/newlib/_exit.o
  .debug_line    0x00000349      0x2fa ./system/src/newlib/_sbrk.o
@@ -2664,22 +2674,22 @@ END GROUP
  .debug_line    0x0000223f      0x3d6 ./system/src/cmsis/system_stm32f10x.o
  .debug_line    0x00002615      0x106 ./system/src/cmsis/vectors_stm32f10x.o
  .debug_line    0x0000271b      0x153 ./src/DGPIO.o
- .debug_line    0x0000286e      0x167 ./src/DMA.o
- .debug_line    0x000029d5       0x52 ./src/DMA_Cfg.o
- .debug_line    0x00002a27      0x174 ./src/DNVIC.o
- .debug_line    0x00002b9b      0x1ae ./src/DRCC.o
- .debug_line    0x00002d49       0xd4 ./src/DSYSTICK.o
- .debug_line    0x00002e1d       0x9b ./src/HLED.o
- .debug_line    0x00002eb8       0x66 ./src/HLED_config.o
- .debug_line    0x00002f1e      0x15d ./src/HUART.o
- .debug_line    0x0000307b      0x1ca ./src/LIN.o
- .debug_line    0x00003245       0x52 ./src/LIN_cfg.o
- .debug_line    0x00003297      0x10f ./src/Sched.o
- .debug_line    0x000033a6       0x5e ./src/Sched_config.o
- .debug_line    0x00003404      0x175 ./src/UART.o
- .debug_line    0x00003579       0xd1 ./src/main.o
+ .debug_line    0x0000286e      0x16e ./src/DMA.o
+ .debug_line    0x000029dc       0x52 ./src/DMA_Cfg.o
+ .debug_line    0x00002a2e      0x174 ./src/DNVIC.o
+ .debug_line    0x00002ba2      0x1ae ./src/DRCC.o
+ .debug_line    0x00002d50       0xd4 ./src/DSYSTICK.o
+ .debug_line    0x00002e24       0x9b ./src/HLED.o
+ .debug_line    0x00002ebf       0x66 ./src/HLED_config.o
+ .debug_line    0x00002f25      0x15e ./src/HUART.o
+ .debug_line    0x00003083      0x1dc ./src/LIN.o
+ .debug_line    0x0000325f       0x52 ./src/LIN_cfg.o
+ .debug_line    0x000032b1      0x10f ./src/Sched.o
+ .debug_line    0x000033c0       0x5e ./src/Sched_config.o
+ .debug_line    0x0000341e      0x176 ./src/UART.o
+ .debug_line    0x00003594       0xe3 ./src/main.o
 
-.debug_frame    0x00000000      0xf30
+.debug_frame    0x00000000      0xf4c
  *(.debug_frame)
  .debug_frame   0x00000000       0x38 ./system/src/newlib/_exit.o
  .debug_frame   0x00000038       0x28 ./system/src/newlib/_sbrk.o
@@ -2698,27 +2708,27 @@ END GROUP
  .debug_frame   0x00000748       0x80 ./src/DSYSTICK.o
  .debug_frame   0x000007c8       0x40 ./src/HLED.o
  .debug_frame   0x00000808       0xfc ./src/HUART.o
- .debug_frame   0x00000904      0x12c ./src/LIN.o
- .debug_frame   0x00000a30       0x84 ./src/Sched.o
- .debug_frame   0x00000ab4       0xec ./src/UART.o
- .debug_frame   0x00000ba0       0x40 ./src/main.o
- .debug_frame   0x00000be0       0x2c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_aeabi_uldivmod.o)
- .debug_frame   0x00000c0c       0x38 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_udivmoddi4.o)
- .debug_frame   0x00000c44       0x20 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
- .debug_frame   0x00000c64       0x48 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-vsnprintf.o)
- .debug_frame   0x00000cac       0x90 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-svfprintf.o)
- .debug_frame   0x00000d3c       0x60 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-vfprintf_i.o)
- .debug_frame   0x00000d9c       0x28 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memchr-stub.o)
- .debug_frame   0x00000dc4       0x28 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memcpy-stub.o)
- .debug_frame   0x00000dec       0x28 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memmove.o)
- .debug_frame   0x00000e14       0x38 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-freer.o)
- .debug_frame   0x00000e4c       0x2c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
- .debug_frame   0x00000e78       0x3c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-reallocr.o)
- .debug_frame   0x00000eb4       0x2c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
- .debug_frame   0x00000ee0       0x30 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mlock.o)
- .debug_frame   0x00000f10       0x20 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-msizer.o)
+ .debug_frame   0x00000904      0x138 ./src/LIN.o
+ .debug_frame   0x00000a3c       0x84 ./src/Sched.o
+ .debug_frame   0x00000ac0       0xec ./src/UART.o
+ .debug_frame   0x00000bac       0x50 ./src/main.o
+ .debug_frame   0x00000bfc       0x2c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_aeabi_uldivmod.o)
+ .debug_frame   0x00000c28       0x38 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m\libgcc.a(_udivmoddi4.o)
+ .debug_frame   0x00000c60       0x20 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
+ .debug_frame   0x00000c80       0x48 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-vsnprintf.o)
+ .debug_frame   0x00000cc8       0x90 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-svfprintf.o)
+ .debug_frame   0x00000d58       0x60 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-vfprintf_i.o)
+ .debug_frame   0x00000db8       0x28 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memchr-stub.o)
+ .debug_frame   0x00000de0       0x28 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memcpy-stub.o)
+ .debug_frame   0x00000e08       0x28 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memmove.o)
+ .debug_frame   0x00000e30       0x38 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-freer.o)
+ .debug_frame   0x00000e68       0x2c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
+ .debug_frame   0x00000e94       0x3c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-reallocr.o)
+ .debug_frame   0x00000ed0       0x2c c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
+ .debug_frame   0x00000efc       0x30 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mlock.o)
+ .debug_frame   0x00000f2c       0x20 c:/users/toshiba/downloads/iti/turkey/arm tools iti/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-msizer.o)
 
-.debug_str      0x00000000    0x59477
+.debug_str      0x00000000    0x594ac
  *(.debug_str)
  .debug_str     0x00000000     0x6d3a ./system/src/newlib/_exit.o
                                0x6eac (size before relaxing)
@@ -2756,22 +2766,22 @@ END GROUP
                                0x44e2 (size before relaxing)
  .debug_str     0x000589e8       0x15 ./src/HLED_config.o
                                0x4497 (size before relaxing)
- .debug_str     0x000589fd      0x454 ./src/HUART.o
-                               0x4f57 (size before relaxing)
- .debug_str     0x00058e51      0x2ff ./src/LIN.o
-                               0x2955 (size before relaxing)
- .debug_str     0x00059150       0x11 ./src/LIN_cfg.o
+ .debug_str     0x000589fd      0x47e ./src/HUART.o
+                               0x4f81 (size before relaxing)
+ .debug_str     0x00058e7b      0x308 ./src/LIN.o
+                               0x2963 (size before relaxing)
+ .debug_str     0x00059183       0x11 ./src/LIN_cfg.o
                                0x26b4 (size before relaxing)
- .debug_str     0x00059161      0x105 ./src/Sched.o
+ .debug_str     0x00059194      0x105 ./src/Sched.o
                                0x2d12 (size before relaxing)
- .debug_str     0x00059266       0x16 ./src/Sched_config.o
+ .debug_str     0x00059299       0x16 ./src/Sched_config.o
                                0x2638 (size before relaxing)
- .debug_str     0x0005927c      0x1ba ./src/UART.o
-                               0x2c79 (size before relaxing)
- .debug_str     0x00059436       0x41 ./src/main.o
-                               0x4e34 (size before relaxing)
+ .debug_str     0x000592af      0x1bc ./src/UART.o
+                               0x2c85 (size before relaxing)
+ .debug_str     0x0005946b       0x41 ./src/main.o
+                               0x4e41 (size before relaxing)
 
-.debug_loc      0x00000000     0x21e4
+.debug_loc      0x00000000     0x21ed
  *(.debug_loc)
  .debug_loc     0x00000000       0x82 ./system/src/newlib/_sbrk.o
  .debug_loc     0x00000082      0x265 ./system/src/newlib/_startup.o
@@ -2787,9 +2797,9 @@ END GROUP
  .debug_loc     0x000014c3       0xd3 ./src/DSYSTICK.o
  .debug_loc     0x00001596      0x139 ./src/HLED.o
  .debug_loc     0x000016cf      0x412 ./src/HUART.o
- .debug_loc     0x00001ae1      0x3a7 ./src/LIN.o
- .debug_loc     0x00001e88       0x48 ./src/Sched.o
- .debug_loc     0x00001ed0      0x314 ./src/UART.o
+ .debug_loc     0x00001ae1      0x3b0 ./src/LIN.o
+ .debug_loc     0x00001e91       0x48 ./src/Sched.o
+ .debug_loc     0x00001ed9      0x314 ./src/UART.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -2807,7 +2817,7 @@ END GROUP
  *(.debug_varnames)
 OUTPUT(DigitalWatch.elf elf32-littlearm)
 
-.debug_ranges   0x00000000      0x4c8
+.debug_ranges   0x00000000      0x4d8
  .debug_ranges  0x00000000       0x18 ./system/src/newlib/_exit.o
  .debug_ranges  0x00000018       0x10 ./system/src/newlib/_sbrk.o
  .debug_ranges  0x00000028       0x48 ./system/src/newlib/_startup.o
@@ -2825,12 +2835,12 @@ OUTPUT(DigitalWatch.elf elf32-littlearm)
  .debug_ranges  0x00000328       0x38 ./src/DSYSTICK.o
  .debug_ranges  0x00000360       0x18 ./src/HLED.o
  .debug_ranges  0x00000378       0x48 ./src/HUART.o
- .debug_ranges  0x000003c0       0x60 ./src/LIN.o
- .debug_ranges  0x00000420       0x30 ./src/Sched.o
- .debug_ranges  0x00000450       0x60 ./src/UART.o
- .debug_ranges  0x000004b0       0x18 ./src/main.o
+ .debug_ranges  0x000003c0       0x68 ./src/LIN.o
+ .debug_ranges  0x00000428       0x30 ./src/Sched.o
+ .debug_ranges  0x00000458       0x60 ./src/UART.o
+ .debug_ranges  0x000004b8       0x20 ./src/main.o
 
-.debug_macro    0x00000000     0x368b
+.debug_macro    0x00000000     0x3691
  .debug_macro   0x00000000      0x19c ./system/src/newlib/_exit.o
  .debug_macro   0x0000019c       0x9c ./system/src/newlib/_exit.o
  .debug_macro   0x00000238      0x10e ./system/src/newlib/_exit.o
@@ -2891,17 +2901,17 @@ OUTPUT(DigitalWatch.elf elf32-littlearm)
  .debug_macro   0x00003273       0x27 ./src/HLED.o
  .debug_macro   0x0000329a       0x22 ./src/HLED.o
  .debug_macro   0x000032bc       0x27 ./src/HLED_config.o
- .debug_macro   0x000032e3       0x68 ./src/HUART.o
- .debug_macro   0x0000334b       0x2e ./src/HUART.o
- .debug_macro   0x00003379       0x16 ./src/HUART.o
- .debug_macro   0x0000338f       0x1c ./src/HUART.o
- .debug_macro   0x000033ab       0x9a ./src/HUART.o
- .debug_macro   0x00003445       0x71 ./src/LIN.o
- .debug_macro   0x000034b6       0x16 ./src/LIN.o
- .debug_macro   0x000034cc       0x52 ./src/LIN.o
- .debug_macro   0x0000351e       0x23 ./src/LIN_cfg.o
- .debug_macro   0x00003541       0x41 ./src/Sched.o
- .debug_macro   0x00003582       0x16 ./src/Sched.o
- .debug_macro   0x00003598       0x23 ./src/Sched_config.o
- .debug_macro   0x000035bb       0x6e ./src/UART.o
- .debug_macro   0x00003629       0x62 ./src/main.o
+ .debug_macro   0x000032e3       0x6e ./src/HUART.o
+ .debug_macro   0x00003351       0x2e ./src/HUART.o
+ .debug_macro   0x0000337f       0x16 ./src/HUART.o
+ .debug_macro   0x00003395       0x1c ./src/HUART.o
+ .debug_macro   0x000033b1       0x9a ./src/HUART.o
+ .debug_macro   0x0000344b       0x71 ./src/LIN.o
+ .debug_macro   0x000034bc       0x16 ./src/LIN.o
+ .debug_macro   0x000034d2       0x52 ./src/LIN.o
+ .debug_macro   0x00003524       0x23 ./src/LIN_cfg.o
+ .debug_macro   0x00003547       0x41 ./src/Sched.o
+ .debug_macro   0x00003588       0x16 ./src/Sched.o
+ .debug_macro   0x0000359e       0x23 ./src/Sched_config.o
+ .debug_macro   0x000035c1       0x6e ./src/UART.o
+ .debug_macro   0x0000362f       0x62 ./src/main.o
